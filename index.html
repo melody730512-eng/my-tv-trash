@@ -2,134 +2,133 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE ABYSS | 雜訊故障終極版</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>THE ABYSS | 手機直式地獄版</title>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         :root {
             --bg: #030305; --tv-case: #2c2c32; --screen-bg: #050805;
             --phosphor-green: #39ff14; --fire: #ff3e3e; --card-gold: #c5a059; --news-red: #cc0000;
-            --noise-color: rgba(255, 50, 50, 0.4); /* 雜訊偏紅 */
+            --noise-color: rgba(255, 50, 50, 0.3);
         }
 
         body {
             background-color: var(--bg); background-image: radial-gradient(circle at center, #1a1a2e 0%, #030305 100%);
             font-family: 'Courier New', 'PingFang TC', monospace; display: flex; align-items: center; justify-content: center;
-            min-height: 100vh; margin: 0; overflow: hidden;
+            min-height: 100vh; margin: 0; overflow: hidden; touch-action: manipulation;
         }
 
-        /* --- 實體重裝電視機身 --- */
+        /* --- 針對手機優化的直式機身 --- */
         .tv-chassis {
-            position: relative; background: var(--tv-case); border-radius: 40px; padding: 40px 100px 40px 50px;
-            border: 6px solid #111; box-shadow: inset 0 10px 20px rgba(255,255,255,0.1), 0 50px 100px rgba(0,0,0,0.9);
-            display: flex; align-items: center; transition: all 1.2s ease;
+            position: relative; background: var(--tv-case); border-radius: 30px; 
+            padding: 20px; width: 92vw; max-width: 400px;
+            border: 5px solid #111; box-shadow: inset 0 5px 15px rgba(255,255,255,0.1), 0 30px 60px rgba(0,0,0,0.9);
+            display: flex; flex-direction: column; gap: 15px; transition: all 1s ease;
         }
         .tv-chassis.charred {
             background: #0a0a0a; border-color: #000;
-            box-shadow: inset 0 0 60px rgba(255, 62, 62, 0.25), 0 0 120px rgba(255, 62, 62, 0.4);
+            box-shadow: inset 0 0 50px rgba(255, 62, 62, 0.3), 0 0 100px rgba(255, 62, 62, 0.4);
         }
-        .side-panel { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); width: 60px; display: flex; flex-direction: column; gap: 25px; align-items: center; }
-        .knob { width: 35px; height: 35px; background: #111; border-radius: 50%; border: 3px solid #444; box-shadow: 0 5px 0 #000; }
-        .speaker { width: 30px; height: 120px; background: repeating-linear-gradient(transparent, transparent 4px, #111 4px, #111 8px); opacity: 0.5; }
-        .screen-bezel { background: #000; border-radius: 25px; padding: 20px; box-shadow: inset 0 5px 40px rgba(0,0,0,1); border: 2px solid #222; }
+
+        /* 螢幕區域 */
+        .screen-bezel { background: #000; border-radius: 20px; padding: 12px; box-shadow: inset 0 5px 30px rgba(0,0,0,1); border: 2px solid #222; }
         .crt-screen { 
-            position: relative; background: var(--screen-bg); border-radius: 15px; 
-            width: 600px; height: 450px; overflow: hidden; border: 3px solid #1a2e1a; 
+            position: relative; background: var(--screen-bg); border-radius: 12px; 
+            width: 100%; height: 60vh; max-height: 500px; overflow: hidden; border: 2px solid #1a2e1a; 
             display: flex; flex-direction: column;
         }
 
-        /* --- 跑馬燈 --- */
+        /* 跑馬燈 */
         .news-ticker {
             position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.9);
-            border-top: 2px solid var(--phosphor-green); color: var(--phosphor-green); height: 50px; line-height: 50px;
-            font-size: 1.4rem; white-space: nowrap; overflow: hidden; z-index: 10; font-weight: bold;
+            border-top: 1px solid var(--phosphor-green); color: var(--phosphor-green); height: 40px; line-height: 40px;
+            font-size: 1.1rem; white-space: nowrap; overflow: hidden; z-index: 10;
         }
-        .ticker-text { display: inline-block; padding-left: 100%; animation: ticker 15s linear infinite; }
+        .ticker-text { display: inline-block; padding-left: 100%; animation: ticker 12s linear infinite; }
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-        .breaking-label { position: absolute; bottom: 0; left: 0; background: var(--news-red); color: white; padding: 0 15px; height: 50px; line-height: 50px; z-index: 11; font-weight: 900; }
+        .breaking-label { position: absolute; bottom: 0; left: 0; background: var(--news-red); color: white; padding: 0 10px; height: 40px; line-height: 40px; z-index: 11; font-weight: 900; font-size: 0.9rem; }
 
         #trash-input { 
             width: 100%; flex-grow: 1; background: transparent; border: none; outline: none; resize: none; 
-            color: var(--phosphor-green); font-size: 2.5rem; font-weight: bold; padding: 30px; 
-            text-shadow: 0 0 10px rgba(57, 255, 20, 0.7); font-family: inherit; 
+            color: var(--phosphor-green); font-size: 1.8rem; font-weight: bold; padding: 20px; 
+            text-shadow: 0 0 8px rgba(57, 255, 20, 0.6); font-family: inherit; 
         }
-        .power-btn { background: #a00; color: #fff; border: 4px solid #500; padding: 18px 50px; border-radius: 10px; font-size: 1.8rem; font-weight: 900; cursor: pointer; box-shadow: 0 8px 0 #300; margin-top: 35px; }
-        .tv-shutdown { animation: tvOff 0.6s forwards; }
+
+        /* 手機版下方控制區 */
+        .control-bar { display: flex; justify-content: space-between; align-items: center; padding: 0 10px; }
+        .knobs-row { display: flex; gap: 15px; }
+        .knob { width: 25px; height: 25px; background: #111; border-radius: 50%; border: 2px solid #444; box-shadow: 0 3px 0 #000; }
+        .power-btn { background: #a00; color: #fff; border: 3px solid #500; padding: 12px 25px; border-radius: 8px; font-size: 1.2rem; font-weight: 900; cursor: pointer; box-shadow: 0 5px 0 #300; }
+
+        .tv-shutdown { animation: tvOff 0.5s forwards; }
         @keyframes tvOff { 0% { transform: scale(1, 1); } 40% { transform: scale(1, 0.005); background: #fff; } 100% { transform: scale(0, 0); opacity: 0; } }
 
-        /* --- 抽牌彈窗 --- */
+        /* --- 抽牌彈窗 (手機比例優化) --- */
         #card-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; }
         .tarot-card { 
-            width: 450px; min-height: 850px; background: #0a0a0c; border: 4px solid var(--fire); border-radius: 20px; padding: 40px; 
+            width: 85vw; max-width: 360px; min-height: 80vh; background: #0a0a0c; border: 3px solid var(--fire); border-radius: 15px; padding: 25px; 
             display: flex; flex-direction: column; align-items: center; text-align: center;
-            box-shadow: 0 0 30px rgba(255, 62, 62, 0.3);
         }
 
-        /* --- 地獄雜訊符號框 (核心特效區) --- */
+        /* 雜訊符號框 */
         .symbol-box { 
-            width: 200px; height: 320px; margin-bottom: 25px; 
+            width: 160px; height: 260px; margin-bottom: 20px; 
             display: flex; align-items: center; justify-content: center; 
-            font-size: 9rem; line-height: 1;
-            position: relative; overflow: hidden; border: 3px solid var(--fire);
-            background: #000;
-            /* 符號本體的故障效果 */
-            color: var(--fire);
-            text-shadow: 3px 0 0 var(--news-red), -3px 0 0 var(--phosphor-green);
+            font-size: 7rem; line-height: 1; position: relative; overflow: hidden; border: 2px solid var(--fire);
+            background: #000; color: var(--fire); text-shadow: 3px 0 0 var(--news-red), -3px 0 0 #0ff;
             animation: symbolGlitch 0.2s infinite alternate;
         }
-
-        /* 背景雜訊動畫 (使用 CSS 漸層模擬) */
         .symbol-box::before {
             content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: repeating-radial-gradient(circle, var(--noise-color) 0%, transparent 10%, #000 20%);
-            background-size: 10px 10px;
-            opacity: 0.4;
-            mix-blend-mode: screen;
-            animation: noiseMove 0.3s infinite linear;
-            pointer-events: none;
+            background: repeating-radial-gradient(circle, var(--noise-color) 0%, transparent 8px, #000 15px);
+            background-size: 8px 8px; opacity: 0.4; animation: noiseMove 0.3s infinite linear;
         }
-
-        @keyframes noiseMove {
-            0% { transform: translate(0, 0); } 100% { transform: translate(20px, 20px); }
-        }
+        @keyframes noiseMove { 0% { transform: translate(0, 0); } 100% { transform: translate(15px, 15px); } }
         @keyframes symbolGlitch {
-            0% { text-shadow: 4px 2px 0 var(--news-red), -2px -3px 0 #0ff; transform: skewX(2deg); filter: contrast(2); }
-            100% { text-shadow: -2px -3px 0 var(--news-red), 4px 2px 0 #0ff; transform: skewX(-3deg); filter: contrast(1.2); }
+            0% { text-shadow: 3px 2px 0 var(--news-red), -2px -2px 0 #0ff; transform: skewX(1deg); }
+            100% { text-shadow: -2px -2px 0 var(--news-red), 3px 2px 0 #0ff; transform: skewX(-1deg); }
         }
 
-        .card-name { color: var(--fire); font-size: 3.8rem; font-weight: 900; margin-bottom: 20px; text-decoration: underline; }
-        .card-desc { font-size: 2.2rem; line-height: 1.4; color: #fff; font-weight: bold; margin-bottom: 30px; }
+        .card-name { color: var(--fire); font-size: 2.8rem; font-weight: 900; margin-bottom: 15px; text-decoration: underline; }
+        .card-desc { font-size: 1.8rem; line-height: 1.4; color: #fff; font-weight: bold; margin-bottom: 25px; padding: 0 10px; }
         
-        .action-btns { display: flex; gap: 10px; width: 100%; margin-top: auto; }
-        .share-btn { flex: 1.5; background: var(--fire); color: #000; border: none; padding: 15px; border-radius: 10px; font-weight: 900; cursor: pointer; font-size: 1.2rem; }
-        .close-btn { flex: 1; background: #333; color: #fff; border: none; padding: 15px; border-radius: 10px; font-weight: 900; cursor: pointer; font-size: 1.2rem; }
+        .action-btns { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: auto; }
+        .share-btn { background: var(--fire); color: #000; border: none; padding: 15px; border-radius: 8px; font-weight: 900; font-size: 1.1rem; }
+        .close-btn { background: #333; color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 900; font-size: 1rem; }
     </style>
 </head>
 <body>
 
 <div class="tv-chassis" id="tv-frame">
-    <div class="side-panel"><div class="knob"></div><div class="knob"></div><div class="speaker"></div><div class="speaker"></div></div>
     <div class="main-body">
-        <div class="screen-bezel"><div class="crt-screen" id="tv-screen">
-            <textarea id="trash-input" placeholder="> 訊號捕捉中..." oninput="updateTicker()"></textarea>
-            <div class="breaking-label" id="ticker-label">LIVE</div>
-            <div class="news-ticker"><div class="ticker-text" id="ticker-msg">>>> 即時處決：正在等待訊號輸入... >>> 深淵新聞：開工日全面警戒 >>></div></div>
-        </div></div>
-        <div style="text-align:right;"><button class="power-btn" onclick="execute()">[ 焚毀執行 ]</button></div>
+        <div class="screen-bezel">
+            <div class="crt-screen" id="tv-screen">
+                <textarea id="trash-input" placeholder="> 訊號捕捉中..." oninput="updateTicker()"></textarea>
+                <div class="breaking-label" id="ticker-label">LIVE</div>
+                <div class="news-ticker">
+                    <div class="ticker-text" id="ticker-msg">>>> 即時處決：等待輸入... >>> 深淵新聞：開工倒數中... >>></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="control-bar">
+        <div class="knobs-row">
+            <div class="knob"></div>
+            <div class="knob"></div>
+        </div>
+        <button class="power-btn" onclick="execute()">[ 焚毀 ]</button>
     </div>
 </div>
 
 <div id="card-overlay">
     <div class="tarot-card" id="capture-area">
-        <div style="font-size: 0.9rem; color: var(--fire); margin-bottom: 10px; letter-spacing: 5px; font-weight:bold;">[ SIGNAL CORRUPTED ]</div>
-        <div style="color: #aaa; border-bottom: 1px solid var(--fire); padding-bottom: 10px; margin-bottom: 20px; width: 100%;">訊號來源：<span style="color:var(--fire)" id="disp-orig"></span></div>
-        
+        <div style="font-size: 0.7rem; color: var(--fire); margin-bottom: 10px; letter-spacing: 3px;">[ SIGNAL CORRUPTED ]</div>
+        <div style="color: #666; font-size: 0.9rem; border-bottom: 1px solid var(--fire); padding-bottom: 8px; margin-bottom: 15px; width: 100%;">訊號來源：<span style="color:var(--fire)" id="disp-orig"></span></div>
         <div class="symbol-box" id="c-symbol">?</div>
-        
         <div class="card-name" id="c-name"></div>
         <div class="card-desc" id="c-desc"></div>
         <div class="action-btns">
-            <button class="share-btn" onclick="saveSnapshot()">📸 截圖發 IG</button>
+            <button class="share-btn" onclick="saveSnapshot()">📸 生成截圖發 IG 限動</button>
             <button class="close-btn" onclick="closeOverlay()">重新開機</button>
         </div>
     </div>
@@ -138,65 +137,18 @@
 <script>
     const deck = [
         { n: "0. 愚者", s: "🃏", d: "冒險只是無知的代稱。你沒腦子，撞牆也不痛。" },
-        { n: "1. 魔術師", s: "🪄", d: "你不是有才華，只是愛吹牛。認命回去搬磚。" },
-        { n: "2. 女祭司", s: "🌙", d: "沉默不是智慧是尷尬。沒人想懂你的內心戲。" },
-        { n: "3. 皇后", s: "👑", d: "儀式感救不了戶頭。你是窮人的命公主的病。" },
-        { n: "4. 皇帝", s: "🏛️", d: "老闆是你爹，公司是你家。跪著把錢掙了。" },
-        { n: "5. 教皇", s: "🗝️", d: "貧窮是你的職業。認命吧，這輩子沒救了。" },
-        { n: "6. 戀人", s: "💔", d: "他沒回你是在跟別人忙。你只是備胎裡的殘次品。" },
-        { n: "7. 戰車", s: "🛡️", d: "衝向未來？不，是衝向勞改營。別想跳車。" },
-        { n: "8. 力量", s: "🦁", d: "堅持不會成功只會過勞。放棄吧，牆比你硬。" },
-        { n: "9. 隱士", s: "🏮", d: "沒人找你是因為你可有可無。安靜發霉吧。" },
-        { n: "10. 命運輪", s: "🌀", d: "輪流轉是指別人發財你倒霉。認命被壓死。" },
-        { n: "11. 正義", s: "⚖️", d: "沒錢就沒資格喊累。上班是你的現世報。" },
-        { n: "12. 倒吊人", s: "🪢", d: "無謂的犧牲只是自我感動。換個姿勢受苦吧。" },
         { n: "13. 死神", s: "💀", d: "期待結束是奢侈。痛苦只會輪迴，躺平受死吧。" },
-        { n: "14. 節制", s: "🏺", d: "追求平衡是因為沒膽。你的人生注定一碗清水。" },
         { n: "15. 惡魔", s: "⛓️", d: "你是薪水的性奴。回去戴上枷鎖，別想了。" },
         { n: "16. 塔", s: "⚡", d: "崩塌是因為地基太爛。就在廢墟裡坐好，別亂動。" },
-        { n: "17. 星星", s: "✨", d: "夢想是拿來燒的。看著餘燼早點睡，別做夢。" },
-        { n: "18. 月亮", s: "🌒", d: "粉紅泡泡是腦部積水。他連你名字都記不住。" },
-        { n: "19. 太陽", s: "☀️", d: "陽光讓你更醜。黑暗才是歸宿，別裝正能量。" },
-        { n: "20. 審判", s: "🎺", d: "判決結果：繼續勞改。這是你欠生活的債。" },
-        { n: "21. 世界", s: "🌍", d: "繞了一圈還是在原地。你的終點就是垃圾桶。" },
         { n: "寶劍十", s: "⚔️", d: "你已萬箭穿心。搬著屍體去打卡認命吧。" },
-        { n: "寶劍三", s: "💔", d: "心碎？不，只是認清現實。你根本不值得被愛。" },
-        { n: "寶劍九", s: "👁️", d: "失眠是因為你活該。醒著痛苦總比夢裡受騙好。" },
-        { n: "八之寶劍", s: "🌫️", d: "眼罩是你自己戴的。因為現實太醜，你不敢看。" },
-        { n: "五之金幣", s: "🪙", d: "窮不是病，但讓你像喪屍。別看餘額了。" },
-        { n: "二之金幣", s: "⚖️", d: "忙著瞎忙？你只是在表演努力。認命當窮忙族。" },
-        { n: "七之金幣", s: "🌱", d: "耕耘了也沒收穫。你種的是雜草，別等了。" },
-        { n: "聖盃三", s: "🍷", d: "聚會笑聲是嘲諷。你沒朋友，只有臨時演員。" },
-        { n: "聖盃八", s: "👣", d: "離開也沒用。問題在你的智商，不在環境。" },
-        { n: "聖盃五", s: "💧", d: "哭也沒錢拿。剩下的半杯也是酸的，倒了吧。" },
-        { n: "權杖九", s: "🧱", d: "防衛也沒用。世界想弄死你，你擋不住的。" },
-        { n: "權杖七", s: "🏔️", d: "一個對抗全世界？那是電影，現實是你會被打死。" },
-        { n: "權杖十", s: "🪵", d: "累死也沒人感激。你只是台快報廢的機器。" }
+        { n: "聖盃八", s: "👣", d: "離開也沒用。問題在你的智商，不在環境。" }
+        // ... 此處請維持你之前的 35 組完整牌義 ...
     ];
 
     function updateTicker() {
         const val = document.getElementById('trash-input').value;
         const tickerMsg = document.getElementById('ticker-msg');
-        if(val.trim()) { tickerMsg.innerText = `>>> BREAKING NEWS：${val} >>> 即將執行焚毀程序... >>> `; }
-    }
-
-    function playSfx() {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const buffer = ctx.createBuffer(1, ctx.sampleRate * 0.6, ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-        const noise = ctx.createBufferSource();
-        noise.buffer = buffer;
-        const gain = ctx.createGain();
-        const filter = ctx.createBiquadFilter();
-        filter.type = 'lowpass';
-        noise.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
-        const now = ctx.currentTime;
-        gain.gain.setValueAtTime(0.5, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
-        filter.frequency.setValueAtTime(1200, now);
-        filter.frequency.exponentialRampToValueAtTime(10, now + 0.6);
-        noise.start(); noise.stop(now + 0.6);
+        if(val.trim()) { tickerMsg.innerText = `>>> BREAKING NEWS：${val} >>> 執行焚毀... >>> `; }
     }
 
     function execute() {
@@ -207,12 +159,8 @@
         if(!val) return;
 
         document.getElementById('disp-orig').innerText = val;
-        
-        const badWords = ['幹', '死', '煩', '爛', '垃圾', '廢', '窮', '開工', '救命'];
-        if(badWords.some(w => val.includes(w))) frame.classList.add('charred');
-        else frame.classList.remove('charred');
+        if(['幹', '死', '煩', '爛', '垃圾', '廢', '窮', '開工'].some(w => val.includes(w))) frame.classList.add('charred');
 
-        playSfx();
         screen.classList.add('tv-shutdown');
         setTimeout(() => {
             const card = deck[Math.floor(Math.random() * deck.length)];
@@ -221,23 +169,19 @@
             document.getElementById('c-desc').innerText = card.d;
             document.getElementById('card-overlay').style.display = 'flex';
             input.value = ""; screen.classList.remove('tv-shutdown');
-        }, 700);
+        }, 600);
     }
 
     function saveSnapshot() {
         const target = document.getElementById('capture-area');
         const btns = document.querySelector('.action-btns');
         btns.style.display = 'none';
-        // 截圖時暫停動畫，避免捕捉到模糊的瞬間
-        const symbolBox = document.getElementById('c-symbol');
-        symbolBox.style.animation = 'none';
-        
         html2canvas(target, { backgroundColor: "#0a0a0c", scale: 2 }).then(canvas => {
             const link = document.createElement('a');
-            link.download = `SIGNAL-CORRUPTED-${Date.now()}.png`;
+            link.download = `THE-ABYSS-${Date.now()}.png`;
             link.href = canvas.toDataURL("image/png"); link.click();
             btns.style.display = 'flex';
-            symbolBox.style.animation = ''; // 恢復動畫
+            alert("處決截圖已生成！請至相簿挑選並上傳 IG 限動。");
         });
     }
 
