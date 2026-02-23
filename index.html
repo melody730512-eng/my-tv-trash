@@ -41,32 +41,49 @@
         .card-visual-box { width: 170px; height: 280px; border: 2px solid #333; margin-bottom: 15px; background: #111; overflow: hidden; }
         .card-img { width: 100%; height: 100%; object-fit: cover; }
         .card-name { color: var(--fire); font-size: 2.2rem; font-weight: 900; margin-bottom: 10px; text-decoration: underline; }
-        .card-desc { font-size: 1.5rem; line-height: 1.4; color: #fff; font-weight: bold; margin-bottom: 20px; }
+        .card-desc { font-size: 1.4rem; line-height: 1.4; color: #fff; font-weight: bold; margin-bottom: 20px; }
         .action-btns { display: flex; flex-direction: column; gap: 8px; width: 100%; margin-top: auto; }
         .share-btn { background: var(--card-gold); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 900; }
         .close-btn { background: #333; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 900; }
+
+        #screenshot-preview { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 3000; }
+        #preview-img { width: 85%; border: 2px solid var(--card-gold); }
+        .save-hint { color: var(--card-gold); margin-top: 20px; font-weight: bold; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0.3; } }
     </style>
 </head>
 <body>
+
 <div class="tv-chassis" id="tv-frame">
     <div class="screen-bezel"><div class="crt-screen" id="tv-screen">
-        <textarea id="trash-input" placeholder="> 全頻道訊號待命中..."></textarea>
+        <textarea id="trash-input" placeholder="> 訊號捕捉中..."></textarea>
         <div class="breaking-label">LIVE</div>
-        <div class="news-ticker"><div class="ticker-text">>>> 78張全頻道開啟 >>> 深淵新聞：開工倒數中 >>></div></div>
+        <div class="news-ticker"><div class="ticker-text">>>> 78全頻道開播 >>> 深夜地獄新聞台：專治各種開工焦慮 >>></div></div>
     </div></div>
-    <button class="power-btn" onclick="execute()">[ 執行焚毀 ]</button>
+    <button class="power-btn" onclick="execute()">[ 焚毀執行 ]</button>
 </div>
+
 <div id="card-overlay"><div class="tarot-card" id="capture-area">
     <div style="font-size: 0.7rem; color: #555; margin-bottom: 8px; letter-spacing: 3px;">ABYSS 78CH NEWS</div>
     <div class="card-visual-box"><img id="c-img" class="card-img" src=""></div>
     <div class="card-name" id="c-name"></div>
     <div class="card-desc" id="c-desc"></div>
-    <div class="action-btns"><button class="share-btn" onclick="saveSnapshot()">📸 生成截圖發 IG 限動</button><button class="close-btn" onclick="closeOverlay()">重新開機</button></div>
+    <div class="action-btns">
+        <button class="share-btn" onclick="saveSnapshot()">📸 生成截圖</button>
+        <button class="close-btn" onclick="closeOverlay()">重新開機</button>
+    </div>
 </div></div>
+
+<div id="screenshot-preview" onclick="this.style.display='none'">
+    <div class="save-hint">【 長按圖片存入相簿 】</div>
+    <img id="preview-img" src="">
+    <div style="color: #666; margin-top: 15px;">點擊空白處返回</div>
+</div>
+
 <script>
     const imgBaseUrl = "./img/";
     const deck = [
-        /* 大牌 0-21 */
+        /* 大牌 (Major Arcana) */
         { n: "0. 愚者", img: "m00.jpg", d: "冒險只是無知的代稱。你沒腦子，撞牆也不痛。" },
         { n: "1. 魔術師", img: "m01.jpg", d: "才華沒變現就是垃圾。認命回去搬磚吧。" },
         { n: "2. 女祭司", img: "m02.jpg", d: "沉默不是智慧。沒人想聽你的內心戲。" },
@@ -90,29 +107,29 @@
         { n: "20. 審判", img: "m20.jpg", d: "判決結果：繼續勞改。這是你欠生活的債。" },
         { n: "21. 世界", img: "m21.jpg", d: "繞了一圈還是在原地。你的終點就是垃圾桶。" },
 
-        /* 寶劍組 (Swords) s01-s14 */
-        { n: "寶劍一", img: "s01.jpg", d: "你的大腦開機失敗。新的計劃只會讓你死得更快。" },
-        { n: "寶劍二", img: "s02.jpg", d: "猶豫不決是因为你沒資本選。隨便選個坑跳吧。" },
+        /* 寶劍組 (Swords) */
+        { n: "寶劍一", img: "s01.jpg", d: "大腦開機失敗。新的計劃只會讓你死得更快。" },
+        { n: "寶劍二", img: "s02.jpg", d: "猶豫不決是因為你沒錢選。隨便選個坑跳吧。" },
         { n: "寶劍三", img: "s03.jpg", d: "心碎？不，只是認清現實。你根本不值得被愛。" },
         { n: "寶劍四", img: "s04.jpg", d: "休息是因為你廢了。躺著等死，別裝冥想。" },
         { n: "寶劍五", img: "s05.jpg", d: "贏了面子輸了人生。大家都討厭你，恭喜。" },
         { n: "寶劍六", img: "s06.jpg", d: "逃跑也沒用。問題在你的智商，不在環境。" },
-        { n: "寶劍七", img: "s07.jpg", d: "自以為聰明？你只是個偷時間的小偷，遲早被抓。" },
+        { n: "寶劍七", img: "s07.jpg", d: "自以為聰明？你只是個偷時間的小偷。" },
         { n: "寶劍八", img: "s08.jpg", d: "眼罩是你自己戴的。因為現實太醜，你不敢看。" },
         { n: "寶劍九", img: "s09.jpg", d: "失眠是因為你活該。醒著痛苦總比夢裡受騙好。" },
         { n: "寶劍十", img: "s10.jpg", d: "你已萬箭穿心。搬著屍體去打卡認命吧。" },
         { n: "寶劍侍者", img: "s11.jpg", d: "愛打聽的小人。閉上嘴，世界會更美好。" },
-        { n: "寶劍騎士", img: "s12.jpg", d: "衝動是魔鬼。你不是英雄，是炮灰。" },
+        { n: "寶劍騎士", img: "s12.jpg", d: "衝動是魔鬼。你不是英雄，是廉價的炮灰。" },
         { n: "寶劍皇后", img: "s13.jpg", d: "尖酸刻薄是你的盔甲。祝你孤老終生。" },
         { n: "寶劍國王", img: "s14.jpg", d: "自以為公正的暴君。沒人真心服你。" },
 
-        /* 聖盃組 (Cups) c01-c14 */
+        /* 聖盃組 (Cups) */
         { n: "聖盃一", img: "c01.jpg", d: "情感滿溢？那是腦部積水。清醒一點。" },
         { n: "聖盃二", img: "c02.jpg", d: "承諾是屁。明天他就會把你封鎖。" },
         { n: "聖盃三", img: "c03.jpg", d: "聚會笑聲是嘲諷。你沒朋友，只有臨時演員。" },
         { n: "聖盃四", img: "c04.jpg", d: "厭倦是因為你太閒。滾回去上班就不會憂鬱了。" },
         { n: "聖盃五", img: "c05.jpg", d: "哭也沒錢拿。剩下的半杯也是酸的，倒了吧。" },
-        { n: "聖盃六", img: "c06.jpg", d: "回憶過去是因為現在太爛。你這輩子也就這樣了。" },
+        { n: "聖盃六", img: "c06.jpg", d: "回憶過去是因為現在太爛。你這輩子也就這樣。" },
         { n: "聖盃七", img: "c07.jpg", d: "全是幻覺。你挑哪個坑，最後都是一場空。" },
         { n: "聖盃八", img: "c08.jpg", d: "離開是唯一的活路。雖然下一個地方可能更爛。" },
         { n: "聖盃九", img: "c09.jpg", d: "自鳴得意？你只是隻關在籠子裡的胖豬。" },
@@ -122,13 +139,13 @@
         { n: "聖盃皇后", img: "c13.jpg", d: "溺死在情緒裡的瘋女人。你的愛是種窒息。" },
         { n: "聖盃國王", img: "c14.jpg", d: "情緒勒索大師。你的溫柔全是控制。" },
 
-        /* 金幣組 (Pentacles) p01-p14 */
-        { n: "金幣一", img: "p01.jpg", d: "一塊錢救不了命。這點資本只夠買張彩券撞大運。" },
-        { n: "金幣二", img: "p02.jpg", d: "忙著瞎忙？你只是在表演努力。認命當窮忙族。" },
-        { n: "金幣三", img: "p03.jpg", d: "團隊合作？那是分贓不均。你只是最廉價的那個。" },
+        /* 金幣組 (Pentacles) */
+        { n: "金幣一", img: "p01.jpg", d: "一塊錢救不了命。這點資本只夠買張彩券。" },
+        { n: "金幣二", img: "p02.jpg", d: "忙著瞎忙？你只是在表演努力。認命吧。" },
+        { n: "金幣三", img: "p03.jpg", d: "團隊合作？那是分贓不均。你只是最廉價的。" },
         { n: "金幣四", img: "p04.jpg", d: "守著那點破錢發霉。沒人會偷你那點窮酸樣。" },
         { n: "金幣五", img: "p05.jpg", d: "窮不是病，但讓你像喪屍。別看餘額了。" },
-        { n: "金幣六", img: "p06.jpg", d: "施捨是種施壓。拿了這點錢，你就是他的狗。" },
+        { n: "金幣六", img: "p06.jpg", d: "施捨是種施壓。拿了這錢，你就是他的狗。" },
         { n: "金幣七", img: "p07.jpg", d: "耕耘了也沒收穫。你種的是雜草，別等了。" },
         { n: "金幣八", img: "p08.jpg", d: "重複勞動的機器。你的價值就是隨時被取代。" },
         { n: "金幣九", img: "p09.jpg", d: "有錢沒愛。你的豪華套房是你的孤島。" },
@@ -138,13 +155,13 @@
         { n: "金幣皇后", img: "p13.jpg", d: "守財奴。你的溫暖是用錢堆出來的假象。" },
         { n: "金幣國王", img: "p14.jpg", d: "滿腦子數字的怪物。你的靈魂值幾塊錢？" },
 
-        /* 權杖組 (Wands) w01-w14 */
+        /* 權杖組 (Wands) */
         { n: "權杖一", img: "w01.jpg", d: "開工啦！這是你爆肝的開始，別想逃。" },
         { n: "權杖二", img: "w02.jpg", d: "野心很大，膽子很小。看著窗外發呆比較快。" },
         { n: "權杖三", img: "w03.jpg", d: "等不到的船，看不見的未來。慢慢等死吧。" },
         { n: "權杖四", img: "w04.jpg", d: "短暫的慶祝是為了更慘的加班。回去工作。" },
         { n: "權杖五", img: "w05.jpg", d: "鬥爭沒意義。反正最後你們都是輸家。" },
-        { n: "權杖六", img: "w06.jpg", d: "勝利只是假象。大家都等著看你從馬上下來。" },
+        { n: "權杖六", img: "w06.jpg", d: "勝利只是假象。大家都等著看你跌下來。" },
         { n: "權杖七", img: "w07.jpg", d: "一個對抗全世界？那是電影，現實是你會被打死。" },
         { n: "權杖八", img: "w08.jpg", d: "消息很快，但全是壞消息。準備接球吧。" },
         { n: "權杖九", img: "w09.jpg", d: "防衛也沒用。世界想弄死你，你擋不住的。" },
@@ -159,24 +176,32 @@
         const input = document.getElementById('trash-input');
         if(!input.value.trim()) return;
         const card = deck[Math.floor(Math.random() * deck.length)];
-        const img = document.getElementById('c-img');
-        img.src = imgBaseUrl + card.img;
+        document.getElementById('c-img').src = imgBaseUrl + card.img;
         document.getElementById('c-name').innerText = card.n;
         document.getElementById('c-desc').innerText = card.d;
         document.getElementById('card-overlay').style.display = 'flex';
         input.value = "";
     }
+
     function saveSnapshot() {
         const target = document.getElementById('capture-area');
         const btns = document.querySelector('.action-btns');
+        const previewArea = document.getElementById('screenshot-preview');
+        const previewImg = document.getElementById('preview-img');
+
         btns.style.display = 'none';
-        html2canvas(target, { backgroundColor: "#0a0a0c", scale: 2 }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = `THE-ABYSS-78CH-${Date.now()}.png`;
-            link.href = canvas.toDataURL("image/png"); link.click();
-            btns.style.display = 'flex';
+
+        html2canvas(target, { 
+            backgroundColor: "#0a0a0c", 
+            scale: 2,
+            useCORS: true
+        }).then(canvas => {
+            previewImg.src = canvas.toDataURL("image/png");
+            previewArea.style.display = 'flex';
+            btns.style.display = 'flex'; 
         });
     }
+
     function closeOverlay() { document.getElementById('card-overlay').style.display = 'none'; }
 </script>
 </body>
