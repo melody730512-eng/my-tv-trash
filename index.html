@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE ABYSS | 深夜地獄新聞台</title>
+    <title>THE ABYSS | 雜訊故障終極版</title>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         :root {
             --bg: #030305; --tv-case: #2c2c32; --screen-bg: #050805;
             --phosphor-green: #39ff14; --fire: #ff3e3e; --card-gold: #c5a059; --news-red: #cc0000;
+            --noise-color: rgba(255, 50, 50, 0.4); /* 雜訊偏紅 */
         }
 
         body {
@@ -23,16 +24,13 @@
             border: 6px solid #111; box-shadow: inset 0 10px 20px rgba(255,255,255,0.1), 0 50px 100px rgba(0,0,0,0.9);
             display: flex; align-items: center; transition: all 1.2s ease;
         }
-
         .tv-chassis.charred {
             background: #0a0a0a; border-color: #000;
             box-shadow: inset 0 0 60px rgba(255, 62, 62, 0.25), 0 0 120px rgba(255, 62, 62, 0.4);
         }
-
         .side-panel { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); width: 60px; display: flex; flex-direction: column; gap: 25px; align-items: center; }
         .knob { width: 35px; height: 35px; background: #111; border-radius: 50%; border: 3px solid #444; box-shadow: 0 5px 0 #000; }
         .speaker { width: 30px; height: 120px; background: repeating-linear-gradient(transparent, transparent 4px, #111 4px, #111 8px); opacity: 0.5; }
-
         .screen-bezel { background: #000; border-radius: 25px; padding: 20px; box-shadow: inset 0 5px 40px rgba(0,0,0,1); border: 2px solid #222; }
         .crt-screen { 
             position: relative; background: var(--screen-bg); border-radius: 15px; 
@@ -55,32 +53,55 @@
             color: var(--phosphor-green); font-size: 2.5rem; font-weight: bold; padding: 30px; 
             text-shadow: 0 0 10px rgba(57, 255, 20, 0.7); font-family: inherit; 
         }
-
         .power-btn { background: #a00; color: #fff; border: 4px solid #500; padding: 18px 50px; border-radius: 10px; font-size: 1.8rem; font-weight: 900; cursor: pointer; box-shadow: 0 8px 0 #300; margin-top: 35px; }
-
         .tv-shutdown { animation: tvOff 0.6s forwards; }
         @keyframes tvOff { 0% { transform: scale(1, 1); } 40% { transform: scale(1, 0.005); background: #fff; } 100% { transform: scale(0, 0); opacity: 0; } }
 
-        /* --- 抽牌彈窗 (純文字美學) --- */
+        /* --- 抽牌彈窗 --- */
         #card-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; }
         .tarot-card { 
-            width: 450px; min-height: 850px; background: #0a0a0c; border: 4px solid var(--card-gold); border-radius: 20px; padding: 40px; 
+            width: 450px; min-height: 850px; background: #0a0a0c; border: 4px solid var(--fire); border-radius: 20px; padding: 40px; 
             display: flex; flex-direction: column; align-items: center; text-align: center;
+            box-shadow: 0 0 30px rgba(255, 62, 62, 0.3);
         }
 
-        /* 代替圖片的符號框 */
+        /* --- 地獄雜訊符號框 (核心特效區) --- */
         .symbol-box { 
-            width: 200px; height: 320px; border: 2px solid var(--card-gold); margin-bottom: 25px; 
+            width: 200px; height: 320px; margin-bottom: 25px; 
             display: flex; align-items: center; justify-content: center; 
-            font-size: 8rem; color: var(--card-gold); text-shadow: 0 0 20px rgba(197, 160, 89, 0.5);
-            background: linear-gradient(45deg, #111, #000);
+            font-size: 9rem; line-height: 1;
+            position: relative; overflow: hidden; border: 3px solid var(--fire);
+            background: #000;
+            /* 符號本體的故障效果 */
+            color: var(--fire);
+            text-shadow: 3px 0 0 var(--news-red), -3px 0 0 var(--phosphor-green);
+            animation: symbolGlitch 0.2s infinite alternate;
+        }
+
+        /* 背景雜訊動畫 (使用 CSS 漸層模擬) */
+        .symbol-box::before {
+            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: repeating-radial-gradient(circle, var(--noise-color) 0%, transparent 10%, #000 20%);
+            background-size: 10px 10px;
+            opacity: 0.4;
+            mix-blend-mode: screen;
+            animation: noiseMove 0.3s infinite linear;
+            pointer-events: none;
+        }
+
+        @keyframes noiseMove {
+            0% { transform: translate(0, 0); } 100% { transform: translate(20px, 20px); }
+        }
+        @keyframes symbolGlitch {
+            0% { text-shadow: 4px 2px 0 var(--news-red), -2px -3px 0 #0ff; transform: skewX(2deg); filter: contrast(2); }
+            100% { text-shadow: -2px -3px 0 var(--news-red), 4px 2px 0 #0ff; transform: skewX(-3deg); filter: contrast(1.2); }
         }
 
         .card-name { color: var(--fire); font-size: 3.8rem; font-weight: 900; margin-bottom: 20px; text-decoration: underline; }
         .card-desc { font-size: 2.2rem; line-height: 1.4; color: #fff; font-weight: bold; margin-bottom: 30px; }
         
         .action-btns { display: flex; gap: 10px; width: 100%; margin-top: auto; }
-        .share-btn { flex: 1.5; background: var(--card-gold); color: #000; border: none; padding: 15px; border-radius: 10px; font-weight: 900; cursor: pointer; font-size: 1.2rem; }
+        .share-btn { flex: 1.5; background: var(--fire); color: #000; border: none; padding: 15px; border-radius: 10px; font-weight: 900; cursor: pointer; font-size: 1.2rem; }
         .close-btn { flex: 1; background: #333; color: #fff; border: none; padding: 15px; border-radius: 10px; font-weight: 900; cursor: pointer; font-size: 1.2rem; }
     </style>
 </head>
@@ -92,7 +113,7 @@
         <div class="screen-bezel"><div class="crt-screen" id="tv-screen">
             <textarea id="trash-input" placeholder="> 訊號捕捉中..." oninput="updateTicker()"></textarea>
             <div class="breaking-label" id="ticker-label">LIVE</div>
-            <div class="news-ticker"><div class="ticker-text" id="ticker-msg">>>> 即時處決：正在等待訊號輸入... >>> 深淵新聞：全文字模式 100% 穩定輸出 >>></div></div>
+            <div class="news-ticker"><div class="ticker-text" id="ticker-msg">>>> 即時處決：正在等待訊號輸入... >>> 深淵新聞：開工日全面警戒 >>></div></div>
         </div></div>
         <div style="text-align:right;"><button class="power-btn" onclick="execute()">[ 焚毀執行 ]</button></div>
     </div>
@@ -100,9 +121,11 @@
 
 <div id="card-overlay">
     <div class="tarot-card" id="capture-area">
-        <div style="font-size: 0.9rem; color: #555; margin-bottom: 10px; letter-spacing: 5px;">ABYSS NEWS CHANNEL</div>
-        <div style="color: #444; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px; width: 100%;">訊號來源：<span style="color:var(--phosphor-green)" id="disp-orig"></span></div>
+        <div style="font-size: 0.9rem; color: var(--fire); margin-bottom: 10px; letter-spacing: 5px; font-weight:bold;">[ SIGNAL CORRUPTED ]</div>
+        <div style="color: #aaa; border-bottom: 1px solid var(--fire); padding-bottom: 10px; margin-bottom: 20px; width: 100%;">訊號來源：<span style="color:var(--fire)" id="disp-orig"></span></div>
+        
         <div class="symbol-box" id="c-symbol">?</div>
+        
         <div class="card-name" id="c-name"></div>
         <div class="card-desc" id="c-desc"></div>
         <div class="action-btns">
@@ -120,7 +143,7 @@
         { n: "3. 皇后", s: "👑", d: "儀式感救不了戶頭。你是窮人的命公主的病。" },
         { n: "4. 皇帝", s: "🏛️", d: "老闆是你爹，公司是你家。跪著把錢掙了。" },
         { n: "5. 教皇", s: "🗝️", d: "貧窮是你的職業。認命吧，這輩子沒救了。" },
-        { n: "6. 戀人", s: "❤️", d: "他沒回你是在跟別人忙。你只是備胎裡的殘次品。" },
+        { n: "6. 戀人", s: "💔", d: "他沒回你是在跟別人忙。你只是備胎裡的殘次品。" },
         { n: "7. 戰車", s: "🛡️", d: "衝向未來？不，是衝向勞改營。別想跳車。" },
         { n: "8. 力量", s: "🦁", d: "堅持不會成功只會過勞。放棄吧，牆比你硬。" },
         { n: "9. 隱士", s: "🏮", d: "沒人找你是因為你可有可無。安靜發霉吧。" },
@@ -157,6 +180,25 @@
         if(val.trim()) { tickerMsg.innerText = `>>> BREAKING NEWS：${val} >>> 即將執行焚毀程序... >>> `; }
     }
 
+    function playSfx() {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const buffer = ctx.createBuffer(1, ctx.sampleRate * 0.6, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+        const gain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        noise.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+        const now = ctx.currentTime;
+        gain.gain.setValueAtTime(0.5, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+        filter.frequency.setValueAtTime(1200, now);
+        filter.frequency.exponentialRampToValueAtTime(10, now + 0.6);
+        noise.start(); noise.stop(now + 0.6);
+    }
+
     function execute() {
         const input = document.getElementById('trash-input');
         const frame = document.getElementById('tv-frame');
@@ -166,10 +208,11 @@
 
         document.getElementById('disp-orig').innerText = val;
         
-        const badWords = ['幹', '死', '煩', '爛', '垃圾', '廢', '窮', '開工'];
+        const badWords = ['幹', '死', '煩', '爛', '垃圾', '廢', '窮', '開工', '救命'];
         if(badWords.some(w => val.includes(w))) frame.classList.add('charred');
         else frame.classList.remove('charred');
 
+        playSfx();
         screen.classList.add('tv-shutdown');
         setTimeout(() => {
             const card = deck[Math.floor(Math.random() * deck.length)];
@@ -185,11 +228,16 @@
         const target = document.getElementById('capture-area');
         const btns = document.querySelector('.action-btns');
         btns.style.display = 'none';
+        // 截圖時暫停動畫，避免捕捉到模糊的瞬間
+        const symbolBox = document.getElementById('c-symbol');
+        symbolBox.style.animation = 'none';
+        
         html2canvas(target, { backgroundColor: "#0a0a0c", scale: 2 }).then(canvas => {
             const link = document.createElement('a');
-            link.download = `ABYSS-NEWS-${Date.now()}.png`;
+            link.download = `SIGNAL-CORRUPTED-${Date.now()}.png`;
             link.href = canvas.toDataURL("image/png"); link.click();
             btns.style.display = 'flex';
+            symbolBox.style.animation = ''; // 恢復動畫
         });
     }
 
