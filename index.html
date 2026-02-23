@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE ABYSS | 重裝實體電視版</title>
+    <title>THE ABYSS | 35組全牌義終極版</title>
     <style>
         :root {
             --bg: #030305;
-            --tv-case: #2c2c32; /* 主機殼顏色 */
-            --tv-panel: #1a1a1d; /* 控制面板顏色 */
+            --tv-case: #2c2c32;
             --screen-bg: #050805;
             --phosphor-green: #39ff14;
             --fire: #ff3e3e;
@@ -19,187 +18,69 @@
             background-color: var(--bg);
             background-image: radial-gradient(circle at center, #1a1a2e 0%, #030305 100%);
             font-family: 'Courier New', 'PingFang TC', monospace;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; margin: 0; overflow: hidden;
         }
 
-        /* --- 電視機重裝外殼 --- */
+        /* --- 實體重裝電視 --- */
         .tv-chassis {
-            position: relative;
-            background: var(--tv-case);
-            border-radius: 40px;
-            padding: 35px 80px 35px 40px; /* 右側留空間給按鈕區 */
+            position: relative; background: var(--tv-case);
+            border-radius: 40px; padding: 40px 100px 40px 50px;
             border: 6px solid #111;
-            box-shadow: 
-                inset 0 10px 20px rgba(255,255,255,0.1),
-                inset 0 -10px 20px rgba(0,0,0,0.6),
-                0 50px 100px rgba(0,0,0,0.9);
-            display: flex;
-            align-items: center;
+            box-shadow: inset 0 10px 20px rgba(255,255,255,0.1), inset 0 -10px 20px rgba(0,0,0,0.6), 0 50px 100px rgba(0,0,0,0.9);
+            display: flex; align-items: center;
+            transition: all 1.2s ease;
         }
 
-        /* 側邊控制面板區 */
-        .side-panel {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 50px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
+        /* 焦黑特效樣式 */
+        .tv-chassis.charred {
+            background: #0a0a0a; border-color: #000;
+            box-shadow: inset 0 0 60px rgba(255, 62, 62, 0.25), 0 0 120px rgba(255, 62, 62, 0.4), 0 50px 100px rgba(0,0,0,1);
+            filter: saturate(1.8) contrast(1.3);
         }
 
-        .knob {
-            width: 30px;
-            height: 30px;
-            background: #111;
-            border-radius: 50%;
-            border: 2px solid #444;
-            box-shadow: 0 4px 0 #000;
-        }
+        .side-panel { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); width: 60px; display: flex; flex-direction: column; gap: 25px; align-items: center; }
+        .knob { width: 35px; height: 35px; background: #111; border-radius: 50%; border: 3px solid #444; box-shadow: 0 5px 0 #000; }
+        .speaker { width: 30px; height: 120px; background: repeating-linear-gradient(transparent, transparent 4px, #111 4px, #111 8px); opacity: 0.5; }
 
-        .speaker-grill {
-            width: 25px;
-            height: 100px;
-            background: repeating-linear-gradient(transparent, transparent 4px, #111 4px, #111 8px);
-            opacity: 0.5;
-        }
+        .screen-bezel { background: #000; border-radius: 25px; padding: 20px; box-shadow: inset 0 5px 40px rgba(0,0,0,1); border: 2px solid #222; }
+        .crt-screen { position: relative; background: var(--screen-bg); border-radius: 15px; width: 600px; height: 450px; overflow: hidden; border: 3px solid #1a2e1a; }
+        .crt-screen::before { content: " "; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%); background-size: 100% 4px; z-index: 5; pointer-events: none; }
 
-        /* 螢幕下陷區 */
-        .screen-bezel {
-            background: #000;
-            border-radius: 20px;
-            padding: 15px;
-            box-shadow: inset 0 5px 30px rgba(0,0,0,1);
-            border: 2px solid #222;
-        }
+        #trash-input { width: 100%; height: 100%; background: transparent; border: none; outline: none; resize: none; color: var(--phosphor-green); font-size: 2.8rem; font-weight: bold; padding: 45px; box-sizing: border-box; text-shadow: 0 0 12px rgba(57, 255, 20, 0.7); font-family: inherit; }
 
-        .crt-screen {
-            position: relative;
-            background: var(--screen-bg);
-            border-radius: 15px;
-            width: 600px;
-            height: 400px;
-            overflow: hidden;
-            border: 3px solid #1a2e1a;
-        }
+        .btn-container { margin-top: 35px; text-align: right; }
+        .power-btn { background: #a00; color: #fff; border: 4px solid #500; padding: 18px 50px; border-radius: 10px; font-size: 1.8rem; font-weight: 900; cursor: pointer; box-shadow: 0 8px 0 #300; transition: 0.1s; }
+        .power-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #300; }
 
-        /* 掃描線效果層 */
-        .crt-screen::before {
-            content: " ";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
-            background-size: 100% 4px;
-            z-index: 5;
-            pointer-events: none;
-        }
-
-        #trash-input {
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            border: none;
-            outline: none;
-            resize: none;
-            color: var(--phosphor-green);
-            font-size: 2.8rem;
-            font-weight: bold;
-            padding: 40px;
-            box-sizing: border-box;
-            text-shadow: 0 0 10px rgba(57, 255, 20, 0.7);
-            font-family: inherit;
-        }
-
-        /* --- 焚毀大按鈕 --- */
-        .btn-container {
-            margin-top: 30px;
-            text-align: right;
-        }
-
-        .incinerate-btn {
-            background: #a00;
-            color: #fff;
-            border: 4px solid #500;
-            padding: 15px 40px;
-            border-radius: 5px;
-            font-size: 1.5rem;
-            font-weight: 900;
-            cursor: pointer;
-            box-shadow: 0 6px 0 #300;
-            transition: 0.1s;
-        }
-
-        .incinerate-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #300;
-        }
-
-        /* --- 關機動畫 --- */
-        .tv-shutdown {
-            animation: tvOff 0.6s forwards;
-        }
-
+        /* --- 關機與卡牌彈窗 --- */
+        .tv-shutdown { animation: tvOff 0.6s forwards; }
         @keyframes tvOff {
             0% { transform: scale(1, 1); filter: brightness(1); }
             40% { transform: scale(1, 0.005); filter: brightness(10); background: #fff; }
             100% { transform: scale(0, 0); opacity: 0; }
         }
 
-        /* --- 抽牌覆蓋層 --- */
-        #card-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.98);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
+        #card-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; }
+        .tarot-card { width: 500px; min-height: 880px; background: #0a0a0c; border: 3px solid var(--card-gold); border-radius: 30px; padding: 40px; display: flex; flex-direction: column; align-items: center; animation: cardPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center; }
+        @keyframes cardPop { 0% { transform: scale(0.5) translateY(100vh); } 100% { transform: scale(1) translateY(0); } }
 
-        .tarot-card {
-            width: 500px;
-            min-height: 850px;
-            background: #0a0a0c;
-            border: 2px solid var(--card-gold);
-            border-radius: 20px;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            animation: cardPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-align: center;
-        }
-
-        @keyframes cardPop {
-            0% { transform: scale(0.5) translateY(100vh); }
-            100% { transform: scale(1) translateY(0); }
-        }
-
-        .old-msg { border-bottom: 1px solid #333; padding-bottom: 15px; margin-bottom: 20px; width: 100%; color: #555; font-size: 1.1rem; }
-        .old-text { color: var(--phosphor-green); display: block; margin-top: 5px; font-size: 1.6rem; }
-        .card-img { height: 320px; border: 2px solid #333; margin-bottom: 20px; }
-        .card-name { color: var(--fire); font-size: 4rem; font-weight: 900; margin: 10px 0; text-decoration: underline; }
-        .card-desc { font-size: 2.6rem; line-height: 1.3; color: #fff; font-weight: bold; }
-        .close-hint { margin-top: auto; color: var(--card-gold); font-size: 1.2rem; }
+        .card-img { height: 320px; border: 2px solid #333; margin-bottom: 25px; }
+        .card-name { color: var(--fire); font-size: 4rem; font-weight: 900; margin-bottom: 20px; text-decoration: underline; }
+        .card-desc { font-size: 2.5rem; line-height: 1.4; color: #fff; font-weight: bold; margin-bottom: 40px; }
+        
+        .share-btn { background: var(--card-gold); color: #000; border: none; padding: 20px 40px; border-radius: 10px; font-weight: 900; cursor: pointer; font-size: 1.5rem; transition: 0.3s; }
+        .share-btn:hover { background: #fff; transform: scale(1.05); }
+        .close-hint { color: #444; font-size: 1.2rem; margin-top: 20px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="tv-chassis">
+<div class="tv-chassis" id="tv-frame">
     <div class="side-panel">
-        <div class="knob"></div>
-        <div class="knob"></div>
-        <div class="speaker-grill"></div>
-        <div class="speaker-grill"></div>
+        <div class="knob"></div><div class="knob"></div>
+        <div class="speaker"></div><div class="speaker"></div>
     </div>
-
     <div class="main-body">
         <div class="screen-bezel">
             <div class="crt-screen" id="tv-screen">
@@ -207,24 +88,25 @@
             </div>
         </div>
         <div class="btn-container">
-            <button class="incinerate-btn" onclick="execute()">[ 焚毀執行 ]</button>
+            <button class="power-btn" onclick="execute()">[ 焚毀執行 ]</button>
         </div>
     </div>
 </div>
 
-<div id="card-overlay" onclick="closeOverlay()">
+<div id="card-overlay">
     <div class="tarot-card">
-        <div class="old-msg">已抹除訊號：<span class="old-text" id="hist"></span></div>
         <img id="c-img" class="card-img" src="" alt="card">
         <div class="card-name" id="c-name"></div>
         <div class="card-desc" id="c-desc"></div>
-        <div class="close-hint">點擊任意位置重新開機</div>
+        <button class="share-btn" onclick="shareCard()">一鍵分享處決結果</button>
+        <div class="close-hint" onclick="closeOverlay()">點擊此處重新開機</div>
     </div>
 </div>
 
 <script>
     const imgBaseUrl = "https://www.sacred-texts.com/tarot/pkt/img/";
     
+    // --- 完整 35 組地獄牌義 ---
     const deck = [
         { n: "0. 愚者", img: "ar00.jpg", d: "冒險只是無知的代稱。你沒腦子，撞牆也不痛。" },
         { n: "1. 魔術師", img: "ar01.jpg", d: "你不是有才華，只是愛吹牛。認命回去搬磚。" },
@@ -263,25 +145,66 @@
         { n: "權杖十", img: "wa10.jpg", d: "累死也沒人感激。你只是台快報廢的機器。" }
     ];
 
+    let currentCard = null;
+
+    // --- 音效：合成復古斷電聲 ---
+    function playSfx() {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const buffer = ctx.createBuffer(1, ctx.sampleRate * 0.6, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+        const gain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+        
+        filter.type = 'lowpass';
+        noise.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+
+        const now = ctx.currentTime;
+        gain.gain.setValueAtTime(0.5, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+        filter.frequency.setValueAtTime(1200, now);
+        filter.frequency.exponentialRampToValueAtTime(10, now + 0.6);
+
+        noise.start(); noise.stop(now + 0.6);
+    }
+
     function execute() {
         const input = document.getElementById('trash-input');
+        const frame = document.getElementById('tv-frame');
         const screen = document.getElementById('tv-screen');
-        const overlay = document.getElementById('card-overlay');
-        const text = input.value.trim();
-        if(!text) return;
+        const val = input.value.trim();
+        if(!val) return;
 
-        document.getElementById('hist').innerText = `> ${text}`;
+        // 焦黑邏輯
+        const badWords = ['幹', '死', '煩', '爛', '垃圾', '廢', '窮', '開工'];
+        if(badWords.some(w => val.includes(w))) frame.classList.add('charred');
+        else frame.classList.remove('charred');
+
+        playSfx();
         screen.classList.add('tv-shutdown');
 
         setTimeout(() => {
-            const card = deck[Math.floor(Math.random() * deck.length)];
-            document.getElementById('c-img').src = imgBaseUrl + card.img;
-            document.getElementById('c-name').innerText = card.n;
-            document.getElementById('c-desc').innerText = card.d;
-            overlay.style.display = 'flex';
+            currentCard = deck[Math.floor(Math.random() * deck.length)];
+            document.getElementById('c-img').src = imgBaseUrl + currentCard.img;
+            document.getElementById('c-name').innerText = currentCard.n;
+            document.getElementById('c-desc').innerText = currentCard.d;
+            document.getElementById('card-overlay').style.display = 'flex';
             input.value = "";
             screen.classList.remove('tv-shutdown');
         }, 700);
+    }
+
+    function shareCard() {
+        if (navigator.share) {
+            navigator.share({
+                title: '深夜地獄處決結果',
+                text: `我在情緒垃圾桶抽到了：【${currentCard.n}】\n牌義：${currentCard.d}`,
+                url: window.location.href
+            });
+        }
     }
 
     function closeOverlay() {
