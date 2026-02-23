@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>THE ABYSS | 手機高清顯影版</title>
+    <title>THE ABYSS | 35組全牌義高清版</title>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         :root {
@@ -15,48 +15,59 @@
             font-family: 'Courier New', 'PingFang TC', monospace; display: flex; align-items: center; justify-content: center;
             min-height: 100vh; margin: 0; overflow: hidden; touch-action: manipulation;
         }
+        /* --- 手機直式重裝機身 --- */
         .tv-chassis {
-            position: relative; background: var(--tv-case); border-radius: 30px; padding: 20px; width: 92vw; max-width: 400px;
+            position: relative; background: var(--tv-case); border-radius: 30px; padding: 15px; width: 92vw; max-width: 380px;
             border: 5px solid #111; box-shadow: inset 0 5px 15px rgba(255,255,255,0.1), 0 30px 60px rgba(0,0,0,0.9);
-            display: flex; flex-direction: column; gap: 15px; transition: all 1s ease;
+            display: flex; flex-direction: column; gap: 10px;
         }
-        .screen-bezel { background: #000; border-radius: 20px; padding: 12px; box-shadow: inset 0 5px 30px rgba(0,0,0,1); border: 2px solid #222; }
-        .crt-screen { position: relative; background: var(--screen-bg); border-radius: 12px; width: 100%; height: 60vh; max-height: 500px; overflow: hidden; border: 2px solid #1a2e1a; display: flex; flex-direction: column; }
-        .news-ticker { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.9); border-top: 1px solid var(--phosphor-green); color: var(--phosphor-green); height: 40px; line-height: 40px; font-size: 1.1rem; white-space: nowrap; overflow: hidden; z-index: 10; }
+        .screen-bezel { background: #000; border-radius: 20px; padding: 10px; box-shadow: inset 0 5px 30px rgba(0,0,0,1); border: 2px solid #222; }
+        .crt-screen { 
+            position: relative; background: var(--screen-bg); border-radius: 12px; width: 100%; height: 58vh; 
+            overflow: hidden; border: 2px solid #1a2e1a; display: flex; flex-direction: column;
+        }
+        /* 新聞跑馬燈 */
+        .news-ticker {
+            position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.9);
+            border-top: 1px solid var(--phosphor-green); color: var(--phosphor-green); height: 40px; line-height: 40px;
+            font-size: 1.1rem; white-space: nowrap; overflow: hidden; z-index: 10;
+        }
         .ticker-text { display: inline-block; padding-left: 100%; animation: ticker 12s linear infinite; }
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
         .breaking-label { position: absolute; bottom: 0; left: 0; background: var(--news-red); color: white; padding: 0 10px; height: 40px; line-height: 40px; z-index: 11; font-weight: 900; }
         #trash-input { width: 100%; flex-grow: 1; background: transparent; border: none; outline: none; resize: none; color: var(--phosphor-green); font-size: 1.8rem; font-weight: bold; padding: 20px; text-shadow: 0 0 8px rgba(57, 255, 20, 0.6); font-family: inherit; }
-        .control-bar { display: flex; justify-content: space-between; align-items: center; padding: 0 10px; }
-        .power-btn { background: #a00; color: #fff; border: 3px solid #500; padding: 12px 25px; border-radius: 8px; font-size: 1.2rem; font-weight: 900; cursor: pointer; box-shadow: 0 5px 0 #300; }
+        .power-btn { background: #a00; color: #fff; border: 3px solid #500; padding: 12px; border-radius: 8px; font-size: 1.2rem; font-weight: 900; cursor: pointer; box-shadow: 0 5px 0 #300; width: 100%; margin-top: 10px; }
         .tv-shutdown { animation: tvOff 0.5s forwards; }
         @keyframes tvOff { 0% { transform: scale(1, 1); } 40% { transform: scale(1, 0.005); background: #fff; } 100% { transform: scale(0, 0); opacity: 0; } }
+        /* --- 抽牌彈窗 --- */
         #card-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; }
-        .tarot-card { width: 85vw; max-width: 360px; min-height: 80vh; background: #0a0a0c; border: 3px solid var(--card-gold); border-radius: 15px; padding: 25px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .card-img-box { width: 180px; height: 300px; border: 2px solid #333; margin-bottom: 20px; background: #111; overflow: hidden; }
-        .card-img { width: 100%; height: 100%; object-fit: cover; }
-        .card-name { color: var(--fire); font-size: 2.8rem; font-weight: 900; margin-bottom: 15px; text-decoration: underline; }
-        .card-desc { font-size: 1.8rem; line-height: 1.4; color: #fff; font-weight: bold; margin-bottom: 25px; }
-        .action-btns { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: auto; }
-        .share-btn { background: var(--card-gold); color: #000; border: none; padding: 15px; border-radius: 8px; font-weight: 900; font-size: 1.1rem; cursor: pointer; }
-        .close-btn { background: #333; color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 900; font-size: 1rem; cursor: pointer; }
+        .tarot-card { width: 88vw; max-width: 350px; min-height: 82vh; background: #0a0a0c; border: 3px solid var(--card-gold); border-radius: 15px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .card-visual-box { width: 160px; height: 270px; border: 2px solid #333; margin-bottom: 15px; background: #111; position: relative; overflow: hidden; }
+        .card-img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 5; }
+        .card-name { color: var(--fire); font-size: 2.5rem; font-weight: 900; margin-bottom: 10px; text-decoration: underline; }
+        .card-desc { font-size: 1.6rem; line-height: 1.4; color: #fff; font-weight: bold; margin-bottom: 20px; }
+        .action-btns { display: flex; flex-direction: column; gap: 8px; width: 100%; margin-top: auto; }
+        .share-btn { background: var(--card-gold); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 900; font-size: 1.1rem; }
+        .close-btn { background: #333; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 900; font-size: 1rem; }
     </style>
 </head>
 <body>
 <div class="tv-chassis" id="tv-frame">
-    <div class="main-body">
-        <div class="screen-bezel"><div class="crt-screen" id="tv-screen">
+    <div class="screen-bezel">
+        <div class="crt-screen" id="tv-screen">
             <textarea id="trash-input" placeholder="> 訊號捕捉中..." oninput="updateTicker()"></textarea>
             <div class="breaking-label" id="ticker-label">LIVE</div>
-            <div class="news-ticker"><div class="ticker-text" id="ticker-msg">>>> 訊號強度 100%：等待訊號輸入... >>> 深淵新聞：開工倒數中...</div></div>
-        </div></div>
+            <div class="news-ticker"><div class="ticker-text" id="ticker-msg">>>> 訊號強度 100% >>> 正在捕捉情緒訊號... >>></div></div>
+        </div>
     </div>
-    <div class="control-bar"><div style="color:#555; font-weight:bold;">TRASH-TV 2026</div><button class="power-btn" onclick="execute()">[ 焚毀 ]</button></div>
+    <button class="power-btn" onclick="execute()">[ 焚毀執行 ]</button>
 </div>
 <div id="card-overlay"><div class="tarot-card" id="capture-area">
-    <div style="font-size: 0.7rem; color: #555; margin-bottom: 10px; letter-spacing: 3px;">ABYSS NEWS CHANNEL</div>
-    <div style="color: #666; font-size: 0.9rem; border-bottom: 1px solid #333; padding-bottom: 8px; margin-bottom: 15px; width: 100%;">訊號來源：<span style="color:var(--phosphor-green)" id="disp-orig"></span></div>
-    <div class="card-img-box"><img id="c-img" class="card-img" src="" alt="card" crossorigin="anonymous"></div>
+    <div style="font-size: 0.7rem; color: #555; margin-bottom: 8px; letter-spacing: 3px;">ABYSS NEWS CHANNEL</div>
+    <div style="color: #666; font-size: 0.8rem; border-bottom: 1px solid #333; padding-bottom: 5px; margin-bottom: 15px; width: 100%;">訊號來源：<span style="color:var(--phosphor-green)" id="disp-orig"></span></div>
+    <div class="card-visual-box">
+        <img id="c-img" class="card-img" src="" alt="" crossorigin="anonymous">
+    </div>
     <div class="card-name" id="c-name"></div>
     <div class="card-desc" id="c-desc"></div>
     <div class="action-btns"><button class="share-btn" onclick="saveSnapshot()">📸 生成截圖發 IG 限動</button><button class="close-btn" onclick="closeOverlay()">重新開機</button></div>
@@ -103,7 +114,7 @@
     function updateTicker() {
         const val = document.getElementById('trash-input').value;
         const tickerMsg = document.getElementById('ticker-msg');
-        if(val.trim()) tickerMsg.innerText = `>>> BREAKING NEWS：${val} >>> 執行焚毀... >>> `;
+        if(val.trim()) tickerMsg.innerText = `>>> BREAKING NEWS：${val} >>> 執行焚毀程序... >>> `;
     }
     function execute() {
         const input = document.getElementById('trash-input');
@@ -119,7 +130,7 @@
             document.getElementById('c-desc').innerText = card.d;
             document.getElementById('card-overlay').style.display = 'flex';
             input.value = ""; document.getElementById('tv-screen').classList.remove('tv-shutdown');
-        }, 500);
+        }, 600);
     }
     function saveSnapshot() {
         const target = document.getElementById('capture-area');
@@ -127,7 +138,7 @@
         btns.style.display = 'none';
         html2canvas(target, { backgroundColor: "#0a0a0c", useCORS: true, scale: 2 }).then(canvas => {
             const link = document.createElement('a');
-            link.download = `ABYSS-STORY-${Date.now()}.png`;
+            link.download = `THE-ABYSS-${Date.now()}.png`;
             link.href = canvas.toDataURL("image/png"); link.click();
             btns.style.display = 'flex';
         });
