@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE ABYSS | 訊號強化終極版</title>
+    <title>THE ABYSS | 地獄新聞台</title>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         :root { --bg: #030305; --tv-case: #2c2c32; --screen-bg: #050805; --phosphor-green: #39ff14; --fire: #ff3e3e; --card-gold: #c5a059; --news-red: #cc0000; }
@@ -23,9 +23,9 @@
         .btn-container { margin-top: 35px; text-align: right; }
         .power-btn { background: #a00; color: #fff; border: 4px solid #500; padding: 18px 50px; border-radius: 10px; font-size: 1.8rem; font-weight: 900; cursor: pointer; box-shadow: 0 8px 0 #300; }
         .tv-shutdown { animation: tvOff 0.6s forwards; }
-        @keyframes tvOff { 0% { transform: scale(1, 1); filter: brightness(1); } 40% { transform: scale(1, 0.005); filter: brightness(10); background: #fff; } 100% { transform: scale(0, 0); opacity: 0; } }
+        @keyframes tvOff { 0% { transform: scale(1, 1); } 40% { transform: scale(1, 0.005); background: #fff; } 100% { transform: scale(0, 0); opacity: 0; } }
         #card-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; }
-        .tarot-card { width: 450px; min-height: 820px; background: #0a0a0c; border: 4px solid var(--card-gold); border-radius: 20px; padding: 40px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .tarot-card { width: 450px; min-height: 850px; background: #0a0a0c; border: 4px solid var(--card-gold); border-radius: 20px; padding: 40px; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .card-img { height: 320px; border: 2px solid #333; margin-bottom: 25px; background: #111; object-fit: contain; }
         .card-name { color: var(--fire); font-size: 3.8rem; font-weight: 900; margin-bottom: 20px; text-decoration: underline; }
         .card-desc { font-size: 2.4rem; line-height: 1.3; color: #fff; font-weight: bold; margin-bottom: 30px; }
@@ -41,7 +41,7 @@
         <div class="screen-bezel"><div class="crt-screen" id="tv-screen">
             <textarea id="trash-input" placeholder="> 訊號捕捉中..." oninput="updateTicker()"></textarea>
             <div class="breaking-label" id="ticker-label">LIVE</div>
-            <div class="news-ticker"><div class="ticker-text" id="ticker-msg">>>> 即時處決：正在等待訊號輸入... >>> 深淵新聞：開工日剩餘不足 24 小時...</div></div>
+            <div class="news-ticker"><div class="ticker-text" id="ticker-msg">>>> 即時處決：正在等待訊號輸入... >>> 深淵新聞：訊號強度 100% OK >>></div></div>
         </div></div>
         <div class="btn-container"><button class="power-btn" onclick="execute()">[ 焚毀執行 ]</button></div>
     </div>
@@ -111,7 +111,9 @@
         setTimeout(() => {
             const card = deck[Math.floor(Math.random() * deck.length)];
             const img = document.getElementById('c-img');
-            img.crossOrigin = "anonymous"; img.src = imgBaseUrl + card.img;
+            // 訊號強化：先設定跨域，再設定網址
+            img.crossOrigin = "anonymous"; 
+            img.src = imgBaseUrl + card.img;
             document.getElementById('c-name').innerText = card.n;
             document.getElementById('c-desc').innerText = card.d;
             document.getElementById('card-overlay').style.display = 'flex';
