@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>THE ABYSS | 78CH 毒舌終極版</title>
+    <title>THE ABYSS | 78CH 極致毒舌版</title>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         :root {
@@ -38,19 +38,19 @@
 
         .live-time { position: absolute; top: 12px; right: 15px; color: var(--phosphor-green); font-size: 0.7rem; font-weight: bold; z-index: 10; }
 
+        /* --- 加強版毒舌跑馬燈 --- */
         .news-ticker {
             position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.9);
-            border-top: 1px solid var(--phosphor-green); color: var(--phosphor-green); height: 35px; line-height: 35px;
-            font-size: 1rem; white-space: nowrap; overflow: hidden; z-index: 10;
+            border-top: 1px solid var(--phosphor-green); color: var(--phosphor-green); height: 40px; line-height: 40px;
+            font-size: 1.1rem; white-space: nowrap; overflow: hidden; z-index: 10;
         }
-        .ticker-text { display: inline-block; padding-left: 100%; animation: ticker 25s linear infinite; }
+        .ticker-text { display: inline-block; padding-left: 100%; animation: ticker 35s linear infinite; }
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-        .breaking-label { position: absolute; bottom: 0; left: 0; background: var(--news-red); color: white; padding: 0 8px; height: 35px; line-height: 35px; z-index: 11; font-weight: 900; font-size: 0.8rem; }
+        .breaking-label { position: absolute; bottom: 0; left: 0; background: var(--news-red); color: white; padding: 0 10px; height: 40px; line-height: 40px; z-index: 11; font-weight: 900; font-size: 0.9rem; }
         
         #trash-input { width: 100%; flex-grow: 1; background: transparent; border: none; outline: none; resize: none; color: var(--phosphor-green); font-size: 1.6rem; font-weight: bold; padding: 20px; font-family: inherit; position: relative; z-index: 6; }
         .power-btn { background: #a00; color: #fff; border: 3px solid #500; padding: 12px; border-radius: 8px; font-size: 1.2rem; font-weight: 900; cursor: pointer; width: 100%; margin-top: 5px; }
         
-        /* --- 抽牌結果彈窗 --- */
         #card-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; }
         .tarot-card { 
             width: 88vw; max-width: 350px; min-height: 80vh; background: #0a0a0c; border: 3px solid var(--card-gold); border-radius: 15px; padding: 20px; 
@@ -61,13 +61,13 @@
         .card-name { color: var(--fire); font-size: 1.8rem; font-weight: 900; margin-bottom: 5px; text-decoration: underline; }
         .card-desc { font-size: 1.2rem; line-height: 1.3; color: #fff; font-weight: bold; margin-bottom: 12px; }
         
-        .healing-box { width: 100%; padding: 8px; border: 1px dashed var(--card-gold); background: rgba(197, 160, 89, 0.1); margin-bottom: 12px; }
+        .healing-box { width: 100%; padding: 8px; border: 1px dashed var(--card-gold); background: rgba(197, 160, 89, 0.1); margin-bottom: 12px; box-sizing: border-box; }
         .healing-label { font-size: 0.6rem; color: var(--card-gold); margin-bottom: 3px; letter-spacing: 2px; font-weight: 900; }
         .healing-content { color: #fff; font-size: 0.9rem; font-weight: bold; }
 
         .watermark { position: absolute; bottom: 12px; right: 15px; color: var(--card-gold); font-size: 0.6rem; font-weight: 900; opacity: 0.5; font-style: italic; }
         .action-btns { display: flex; flex-direction: column; gap: 8px; width: 100%; margin-top: auto; }
-        .share-btn { background: var(--card-gold); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 900; }
+        .share-btn { background: var(--card-gold); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 900; font-size: 1rem; }
         .close-btn { background: #333; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 900; }
 
         #screenshot-preview { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 3000; }
@@ -80,11 +80,11 @@
     <div class="screen-bezel">
         <div class="live-time" id="current-time">LIVE 00:00:00</div>
         <div class="crt-screen" id="tv-screen">
-            <textarea id="trash-input" placeholder="> 訊號捕捉中..."></textarea>
+            <textarea id="trash-input" placeholder="> 輸入垃圾心情，捕捉 78 頻道訊號..."></textarea>
             <div class="breaking-label">LIVE</div>
             <div class="news-ticker">
                 <div class="ticker-text">
-                    >>> 人生除了苦澀，還剩下貧窮與孤獨 >>> 錢包餘額顯示為零，這是您努力的結果 >>> 未來依舊暗無天日，建議持續躺平 >>> 贊助：癒室-手工甜點，救不了您的靈魂，但救得了您的胃 >>> 
+                    >>> 78 個地獄頻道全線開播：每一張牌都是您失敗人生的真實寫照 >>> 獨家：專家指出，您的努力除了感動自己，對社會毫無貢獻 >>> 預報：明日依舊沒有奇蹟，建議直接放棄掙扎 >>> 贊助：癒室-蘭姆葡萄肉桂捲，雖然救不了您的靈魂，但能讓您墮落時口感更好 >>> 突發：您的前任過得比您好，而且這不是錯覺 >>> 警告：您的夢想已被系統回收，請勿再次查詢 >>> 提示：沒人愛您是正常的，請保持平常心 >>> 提醒：78 個坑位供您挑選，總有一個地獄頻道是為您量身打造的 >>> 
                 </div>
             </div>
         </div>
@@ -118,6 +118,7 @@
     const imgBaseUrl = "./img/";
     const desserts = ["蘭姆葡萄核桃焦糖肉桂捲","純核桃焦糖肉桂捲","黃金乳酪球","巴斯克蛋糕","限量迷你可麗露","瑪德蓮","蘭姆葡萄夾心餅"];
 
+    // 78 張全頻道地獄牌組 (包含大小牌)
     const deck = [
         /* 大牌 m00-m21 */
         { n: "0. 愚者", img: "m00.jpg", d: "冒險只是無知的代稱。你沒腦子，撞牆也不痛。" },
@@ -233,10 +234,17 @@
     function saveSnapshot() {
         const target = document.getElementById('capture-area');
         const btns = document.querySelector('.action-btns');
+        const previewArea = document.getElementById('screenshot-preview');
+        const previewImg = document.getElementById('preview-img');
+
         btns.style.display = 'none';
-        html2canvas(target, { backgroundColor: "#0a0a0c", scale: 2, useCORS: true }).then(canvas => {
-            document.getElementById('preview-img').src = canvas.toDataURL("image/png");
-            document.getElementById('screenshot-preview').style.display = 'flex';
+        html2canvas(target, { 
+            backgroundColor: "#0a0a0c", 
+            scale: 2,
+            useCORS: true 
+        }).then(canvas => {
+            previewImg.src = canvas.toDataURL("image/png");
+            previewArea.style.display = 'flex';
             btns.style.display = 'flex'; 
         });
     }
