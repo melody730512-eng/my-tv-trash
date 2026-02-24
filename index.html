@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>THE ABYSS | 78CH 極致毒舌版</title>
+    <title>THE ABYSS | 78CH 職場現世報</title>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         :root {
@@ -15,110 +15,77 @@
             font-family: 'Courier New', 'PingFang TC', monospace; display: flex; align-items: center; justify-content: center;
             min-height: 100vh; margin: 0; overflow: hidden; touch-action: manipulation;
         }
-
-        /* --- 手機直式機身 --- */
         .tv-chassis {
             position: relative; background: var(--tv-case); border-radius: 30px; padding: 15px; width: 92vw; max-width: 380px;
             border: 5px solid #111; box-shadow: inset 0 5px 15px rgba(255,255,255,0.1), 0 30px 60px rgba(0,0,0,0.9);
             display: flex; flex-direction: column; gap: 8px;
         }
-
-        /* --- CRT 濾鏡與掃描線 --- */
+        .mode-switch { display: flex; gap: 5px; margin-bottom: 5px; }
+        .mode-btn { flex: 1; padding: 10px; font-size: 0.9rem; font-weight: 900; background: #444; color: #888; border: none; border-radius: 8px; cursor: pointer; }
+        .mode-btn.active { background: var(--card-gold); color: #000; box-shadow: 0 0 10px var(--card-gold); }
         .screen-bezel { background: #000; border-radius: 20px; padding: 10px; box-shadow: inset 0 5px 30px rgba(0,0,0,1); border: 2px solid #222; position: relative; }
-        .crt-screen { 
-            position: relative; background: var(--screen-bg); border-radius: 12px; width: 100%; height: 56vh; 
-            overflow: hidden; border: 2px solid #1a2e1a; display: flex; flex-direction: column;
-        }
+        .crt-screen { position: relative; background: var(--screen-bg); border-radius: 12px; width: 100%; height: 50vh; overflow: hidden; border: 2px solid #1a2e1a; display: flex; flex-direction: column; }
         .crt-screen::before {
             content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
             background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
                         linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
             z-index: 5; background-size: 100% 4px, 3px 100%; pointer-events: none;
         }
-
         .live-time { position: absolute; top: 12px; right: 15px; color: var(--phosphor-green); font-size: 0.7rem; font-weight: bold; z-index: 10; }
-
-        /* --- 加強版毒舌跑馬燈 --- */
-        .news-ticker {
-            position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.9);
-            border-top: 1px solid var(--phosphor-green); color: var(--phosphor-green); height: 40px; line-height: 40px;
-            font-size: 1.1rem; white-space: nowrap; overflow: hidden; z-index: 10;
-        }
-        .ticker-text { display: inline-block; padding-left: 100%; animation: ticker 35s linear infinite; }
+        .news-ticker { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.9); border-top: 1px solid var(--phosphor-green); color: var(--phosphor-green); height: 35px; line-height: 35px; font-size: 0.9rem; white-space: nowrap; overflow: hidden; z-index: 10; }
+        .ticker-text { display: inline-block; padding-left: 100%; animation: ticker 45s linear infinite; }
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-        .breaking-label { position: absolute; bottom: 0; left: 0; background: var(--news-red); color: white; padding: 0 10px; height: 40px; line-height: 40px; z-index: 11; font-weight: 900; font-size: 0.9rem; }
-        
-        #trash-input { width: 100%; flex-grow: 1; background: transparent; border: none; outline: none; resize: none; color: var(--phosphor-green); font-size: 1.6rem; font-weight: bold; padding: 20px; font-family: inherit; position: relative; z-index: 6; }
+        .breaking-label { position: absolute; bottom: 0; left: 0; background: var(--news-red); color: white; padding: 0 8px; height: 35px; line-height: 35px; z-index: 11; font-weight: 900; }
+        #trash-input { width: 100%; flex-grow: 1; background: transparent; border: none; outline: none; resize: none; color: var(--phosphor-green); font-size: 1.5rem; font-weight: bold; padding: 20px; font-family: inherit; z-index: 6; }
         .power-btn { background: #a00; color: #fff; border: 3px solid #500; padding: 12px; border-radius: 8px; font-size: 1.2rem; font-weight: 900; cursor: pointer; width: 100%; margin-top: 5px; }
-        
         #card-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; }
-        .tarot-card { 
-            width: 88vw; max-width: 350px; min-height: 80vh; background: #0a0a0c; border: 3px solid var(--card-gold); border-radius: 15px; padding: 20px; 
-            display: flex; flex-direction: column; align-items: center; text-align: center; position: relative;
-        }
+        .tarot-card { width: 88vw; max-width: 350px; min-height: 80vh; background: #0a0a0c; border: 3px solid var(--card-gold); border-radius: 15px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; box-sizing: border-box; }
         .card-visual-box { width: 160px; height: 260px; border: 2px solid #333; margin-bottom: 12px; background: #111; overflow: hidden; }
-        .card-img { width: 100%; height: 100%; object-fit: cover; }
-        .card-name { color: var(--fire); font-size: 1.8rem; font-weight: 900; margin-bottom: 5px; text-decoration: underline; }
-        .card-desc { font-size: 1.2rem; line-height: 1.3; color: #fff; font-weight: bold; margin-bottom: 12px; }
-        
-        .healing-box { width: 100%; padding: 8px; border: 1px dashed var(--card-gold); background: rgba(197, 160, 89, 0.1); margin-bottom: 12px; box-sizing: border-box; }
-        .healing-label { font-size: 0.6rem; color: var(--card-gold); margin-bottom: 3px; letter-spacing: 2px; font-weight: 900; }
+        .divining-box { display: flex; gap: 20px; margin: 25px 0; }
+        .block { width: 65px; height: 100px; background: #a00; border-radius: 60px 15px 60px 15px; border: 3px solid #500; }
+        .block.flat { background: #600; border-radius: 10px; height: 25px; margin-top: 38px; }
+        .block.stand { transform: rotateX(45deg); height: 120px; background: #d00; border: 4px solid var(--phosphor-green); }
+        .healing-box { width: 100%; padding: 10px; border: 1px dashed var(--card-gold); background: rgba(197, 160, 89, 0.1); margin-bottom: 15px; }
+        .healing-label { font-size: 0.6rem; color: var(--card-gold); margin-bottom: 5px; font-weight: 900; letter-spacing: 2px; }
         .healing-content { color: #fff; font-size: 0.9rem; font-weight: bold; }
-
-        .watermark { position: absolute; bottom: 12px; right: 15px; color: var(--card-gold); font-size: 0.6rem; font-weight: 900; opacity: 0.5; font-style: italic; }
         .action-btns { display: flex; flex-direction: column; gap: 8px; width: 100%; margin-top: auto; }
-        .share-btn { background: var(--card-gold); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 900; font-size: 1rem; }
-        .close-btn { background: #333; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 900; }
-
+        .share-btn { background: var(--card-gold); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 900; }
         #screenshot-preview { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 3000; }
-        #preview-img { width: 85%; border: 2px solid var(--card-gold); }
     </style>
 </head>
 <body>
-
 <div class="tv-chassis">
+    <div class="mode-switch">
+        <button class="mode-btn active" id="btn-tarot" onclick="setMode('tarot')">78CH 塔羅</button>
+        <button class="mode-btn" id="btn-divine" onclick="setMode('divine')">職場現世報</button>
+    </div>
     <div class="screen-bezel">
         <div class="live-time" id="current-time">LIVE 00:00:00</div>
-        <div class="crt-screen" id="tv-screen">
-            <textarea id="trash-input" placeholder="> 輸入垃圾心情，捕捉 78 頻道訊號..."></textarea>
+        <div class="crt-screen">
+            <textarea id="trash-input" placeholder="> 輸入垃圾心情，捕捉訊號..."></textarea>
             <div class="breaking-label">LIVE</div>
-            <div class="news-ticker">
-                <div class="ticker-text">
-                    >>> 78 個地獄頻道全線開播：每一張牌都是您失敗人生的真實寫照 >>> 獨家：專家指出，您的努力除了感動自己，對社會毫無貢獻 >>> 預報：明日依舊沒有奇蹟，建議直接放棄掙扎 >>> 贊助：癒室-蘭姆葡萄肉桂捲，雖然救不了您的靈魂，但能讓您墮落時口感更好 >>> 突發：您的前任過得比您好，而且這不是錯覺 >>> 警告：您的夢想已被系統回收，請勿再次查詢 >>> 提示：沒人愛您是正常的，請保持平常心 >>> 提醒：78 個坑位供您挑選，總有一個地獄頻道是為您量身打造的 >>> 
-                </div>
-            </div>
+            <div class="news-ticker"><div class="ticker-text">>>> 獨家：專家指出，您的努力除了感動自己，對社會毫無貢獻 >>> 快訊：導播指示，您的演技雖然專業，但加班費依然是零 >>> 報導：HR 表示，您的心碎並不屬於公傷假範圍 >>> 提醒：蘭姆葡萄夾心餅的甜度，剛好能蓋過您對人生的苦澀 >>> 警告：您的夢想已被系統回收，請勿再次查詢 >>> 突發：您的前任過得比您好，且這不是錯覺 >>> 廣告：癒室肉桂捲，救不了您的靈魂但救得了您的胃 >>> </div></div>
         </div>
     </div>
     <button class="power-btn" onclick="execute()">[ 焚毀執行 ]</button>
-    <div style="text-align: right; color: #555; font-size: 0.5rem; font-weight: bold; margin-top: 3px; letter-spacing: 1px;">PRODUCED BY HEALING ROOM</div>
 </div>
 
 <div id="card-overlay"><div class="tarot-card" id="capture-area">
-    <div style="font-size: 0.6rem; color: #555; margin-bottom: 5px; letter-spacing: 2px;">ABYSS 78CH NEWS</div>
-    <div class="card-visual-box"><img id="c-img" class="card-img" src=""></div>
-    <div class="card-name" id="c-name"></div>
-    <div class="card-desc" id="c-desc"></div>
-    <div class="healing-box">
-        <div class="healing-label">【 癒室生存建議 】</div>
-        <div class="healing-content" id="c-healing-dessert"></div>
-    </div>
-    <div class="watermark">© 癒室 HEALING ROOM</div>
-    <div class="action-btns">
-        <button class="share-btn" onclick="saveSnapshot()">📸 生成截圖</button>
-        <button class="close-btn" onclick="closeOverlay()">重新開機</button>
-    </div>
+    <div style="font-size: 0.6rem; color: #555; margin-bottom: 10px; letter-spacing: 2px;">ABYSS NEWS CHANNEL</div>
+    <div id="result-tarot"><div class="card-visual-box"><img id="c-img" style="width:100%; height:100%; object-fit:cover;" src=""></div></div>
+    <div id="result-divine" style="display:none;"><div class="divining-box" id="blocks-visual"></div></div>
+    <div style="color:var(--fire); font-size:1.8rem; font-weight:900; margin-bottom:5px;" id="c-name"></div>
+    <div style="font-size:1.2rem; color:#fff; font-weight:bold; margin-bottom:12px;" id="c-desc"></div>
+    <div class="healing-box"><div class="healing-label">【 癒室救贖建議 】</div><div class="healing-content" id="c-healing"></div></div>
+    <div style="position:absolute; bottom:12px; right:15px; color:var(--card-gold); font-size:0.6rem; opacity:0.5;">© 癒室 HEALING ROOM</div>
+    <div class="action-btns"><button class="share-btn" onclick="saveSnapshot()">📸 生成截圖</button><button class="close-btn" style="background:#333; color:#fff; border:none; padding:10px; border-radius:8px; font-weight:900;" onclick="closeOverlay()">重新開機</button></div>
 </div></div>
 
-<div id="screenshot-preview" onclick="this.style.display='none'">
-    <div style="color: var(--card-gold); margin-bottom: 10px; font-weight: bold; font-size: 0.9rem;">【 長按圖片存入相簿分享 IG 】</div>
-    <img id="preview-img" src="">
-</div>
+<div id="screenshot-preview" onclick="this.style.display='none'"><img id="preview-img" src="" style="width:85%; border: 2px solid var(--card-gold);"><div style="color:var(--card-gold); margin-top:10px; font-weight:bold;">長按存圖分享 IG</div></div>
 
 <script>
-    const imgBaseUrl = "./img/";
+    let currentMode = 'tarot';
     const desserts = ["蘭姆葡萄核桃焦糖肉桂捲","純核桃焦糖肉桂捲","黃金乳酪球","巴斯克蛋糕","限量迷你可麗露","瑪德蓮","蘭姆葡萄夾心餅"];
-
-    // 78 張全頻道地獄牌組 (包含大小牌)
     const deck = [
         /* 大牌 m00-m21 */
         { n: "0. 愚者", img: "m00.jpg", d: "冒險只是無知的代稱。你沒腦子，撞牆也不痛。" },
@@ -145,18 +112,18 @@
         { n: "21. 世界", img: "m21.jpg", d: "繞了一圈還是在原地。你的終點就是垃圾桶。" },
 
         /* 寶劍組 s01-s14 */
-        { n: "寶劍一", img: "s01.jpg", d: "大腦開機失敗。新的計劃只會讓你死得更快。" },
-        { n: "寶劍二", img: "s02.jpg", d: "猶豫不決是因為你沒錢選。隨便選個坑跳吧。" },
+        { n: "寶劍一", img: "s01.jpg", d: "你的大腦開機失敗。新的計劃只會讓你死得更快。" },
+        { n: "寶劍二", img: "s02.jpg", d: "猶豫不決是因為你沒資本選。隨便選個坑跳吧。" },
         { n: "寶劍三", img: "s03.jpg", d: "心碎？不，只是認清現實。你根本不值得被愛。" },
         { n: "寶劍四", img: "s04.jpg", d: "休息是因為你廢了。躺著等死，別裝冥想。" },
         { n: "寶劍五", img: "s05.jpg", d: "贏了面子輸了人生。大家都討厭你，恭喜。" },
         { n: "寶劍六", img: "s06.jpg", d: "逃跑也沒用。問題在你的智商，不在環境。" },
-        { n: "寶劍七", img: "s07.jpg", d: "自以為聰明？你只是個偷時間的小偷。" },
+        { n: "寶劍七", img: "s07.jpg", d: "自以為聰明？你只是個偷時間的小偷，遲早被抓。" },
         { n: "寶劍八", img: "s08.jpg", d: "眼罩是你自己戴的。因為現實太醜，你不敢看。" },
         { n: "寶劍九", img: "s09.jpg", d: "失眠是因為你活該。醒著痛苦總比夢裡受騙好。" },
         { n: "寶劍十", img: "s10.jpg", d: "你已萬箭穿心。搬著屍體去打卡認命吧。" },
         { n: "寶劍侍者", img: "s11.jpg", d: "愛打聽的小人。閉上嘴，世界會更美好。" },
-        { n: "寶劍騎士", img: "s12.jpg", d: "衝動是魔鬼。你不是英雄，是廉價的炮灰。" },
+        { n: "寶劍騎士", img: "s12.jpg", d: "衝動是魔鬼。你不是英雄，是炮灰。" },
         { n: "寶劍皇后", img: "s13.jpg", d: "尖酸刻薄是你的盔甲。祝你孤老終生。" },
         { n: "寶劍國王", img: "s14.jpg", d: "自以為公正的暴君。沒人真心服你。" },
 
@@ -166,9 +133,9 @@
         { n: "聖盃三", img: "c03.jpg", d: "聚會笑聲是嘲諷。你沒朋友，只有臨時演員。" },
         { n: "聖盃四", img: "c04.jpg", d: "厭倦是因為你太閒。滾回去上班就不會憂鬱了。" },
         { n: "聖盃五", img: "c05.jpg", d: "哭也沒錢拿。剩下的半杯也是酸的，倒了吧。" },
-        { n: "聖盃六", img: "c06.jpg", d: "回憶過去是因為現在太爛。你這輩子也就這樣。" },
+        { n: "聖盃六", img: "c06.jpg", d: "回憶過去是因為現在太爛。你這輩子也就這樣了。" },
         { n: "聖盃七", img: "c07.jpg", d: "全是幻覺。你挑哪個坑，最後都是一場空。" },
-        { n: "聖盃八", img: "c08.jpg", d: "離開是唯一的活路。雖然下一個地方可能更爛。" },
+        { n: "聖盃八", img: "c08.jpg", d: "離開也沒用。問題在你的智商，不在環境。" },
         { n: "聖盃九", img: "c09.jpg", d: "自鳴得意？你只是隻關在籠子裡的胖豬。" },
         { n: "聖盃十", img: "c10.jpg", d: "幸福是演給別人看的。家裡早就雞飛狗跳了。" },
         { n: "聖盃侍者", img: "c11.jpg", d: "多愁善感的小廢物。別人的同情只是你的毒藥。" },
@@ -209,43 +176,32 @@
         { n: "權杖國王", img: "w14.jpg", d: "自以為領袖。其實你只是帶隊衝進火坑。" }
     ];
 
-    function updateTime() {
-        const now = new Date();
-        document.getElementById('current-time').innerText = `LIVE ${now.toLocaleTimeString('zh-TW', {hour12: false})}`;
-    }
+    function updateTime() { document.getElementById('current-time').innerText = `LIVE ${new Date().toLocaleTimeString('zh-TW', {hour12: false})}`; }
     setInterval(updateTime, 1000);
-
+    function setMode(mode) { currentMode = mode; document.getElementById('btn-tarot').classList.toggle('active', mode === 'tarot'); document.getElementById('btn-divine').classList.toggle('active', mode === 'divine'); }
     function execute() {
-        const input = document.getElementById('trash-input');
-        if(!input.value.trim()) return;
-        
-        const card = deck[Math.floor(Math.random() * deck.length)];
-        const dessert = desserts[Math.floor(Math.random() * desserts.length)];
-        
-        document.getElementById('c-img').src = imgBaseUrl + card.img;
-        document.getElementById('c-name').innerText = card.n;
-        document.getElementById('c-desc').innerText = card.d;
-        document.getElementById('c-healing-dessert').innerText = `對症下藥：${dessert}`;
-        
+        if(!document.getElementById('trash-input').value.trim()) return;
+        document.getElementById('c-healing').innerText = `對症下藥：${desserts[Math.floor(Math.random()*desserts.length)]}`;
+        if(currentMode === 'tarot') {
+            document.getElementById('result-tarot').style.display = 'block'; document.getElementById('result-divine').style.display = 'none';
+            const card = deck[Math.floor(Math.random() * deck.length)];
+            document.getElementById('c-img').src = "./img/" + card.img; document.getElementById('c-name').innerText = card.n; document.getElementById('c-desc').innerText = card.d;
+        } else {
+            document.getElementById('result-tarot').style.display = 'none'; document.getElementById('result-divine').style.display = 'block';
+            const rand = Math.random(); let res;
+            if (rand < 0.001) res = { n: "系統崩潰", d: "【 警告 】現實被你的無知擊碎了。禁止再次請示，立刻回工位坐好。", b: ["stand", "stand"] };
+            else if (rand < 0.5) res = { n: "現實特許", d: "現實特許。准你今天稍微偷懶。趁老闆沒發現，快滾。", b: ["curved", "flat"] };
+            else if (rand < 0.75) res = { n: "現實嘲笑", d: "現實正在嘲笑你的天真。這種問題連 HR 都懶得回答。重擲。", b: ["flat", "flat"] };
+            else res = { n: "現實打臉", d: "現實打臉。判決結果：門都沒有。清醒一點，回去加班吧。", b: ["curved", "curved"] };
+            document.getElementById('c-name').innerText = res.n; document.getElementById('c-desc').innerText = res.d;
+            document.getElementById('blocks-visual').innerHTML = res.b.map(t => `<div class="block ${t}"></div>`).join('');
+        }
         document.getElementById('card-overlay').style.display = 'flex';
-        input.value = "";
     }
-
-    function saveSnapshot() {
-        const target = document.getElementById('capture-area');
-        const btns = document.querySelector('.action-btns');
-        const previewArea = document.getElementById('screenshot-preview');
-        const previewImg = document.getElementById('preview-img');
-
-        btns.style.display = 'none';
-        html2canvas(target, { 
-            backgroundColor: "#0a0a0c", 
-            scale: 2,
-            useCORS: true 
-        }).then(canvas => {
-            previewImg.src = canvas.toDataURL("image/png");
-            previewArea.style.display = 'flex';
-            btns.style.display = 'flex'; 
+    function saveSnapshot() { 
+        const btns = document.querySelector('.action-btns'); btns.style.display = 'none';
+        html2canvas(document.getElementById('capture-area'), { backgroundColor: "#0a0a0c", scale: 2, useCORS: true }).then(canvas => {
+            document.getElementById('preview-img').src = canvas.toDataURL("image/png"); document.getElementById('screenshot-preview').style.display = 'flex'; btns.style.display = 'flex'; 
         });
     }
     function closeOverlay() { document.getElementById('card-overlay').style.display = 'none'; }
