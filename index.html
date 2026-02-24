@@ -33,18 +33,23 @@
         }
         .live-time { position: absolute; top: 12px; right: 15px; color: var(--phosphor-green); font-size: 0.7rem; font-weight: bold; z-index: 10; }
         .news-ticker { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.9); border-top: 1px solid var(--phosphor-green); color: var(--phosphor-green); height: 35px; line-height: 35px; font-size: 0.9rem; white-space: nowrap; overflow: hidden; z-index: 10; }
-        .ticker-text { display: inline-block; padding-left: 100%; animation: ticker 45s linear infinite; }
+        .ticker-text { display: inline-block; padding-left: 100%; animation: ticker 40s linear infinite; }
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
         .breaking-label { position: absolute; bottom: 0; left: 0; background: var(--news-red); color: white; padding: 0 8px; height: 35px; line-height: 35px; z-index: 11; font-weight: 900; }
         #trash-input { width: 100%; flex-grow: 1; background: transparent; border: none; outline: none; resize: none; color: var(--phosphor-green); font-size: 1.5rem; font-weight: bold; padding: 20px; font-family: inherit; z-index: 6; }
         .power-btn { background: #a00; color: #fff; border: 3px solid #500; padding: 12px; border-radius: 8px; font-size: 1.2rem; font-weight: 900; cursor: pointer; width: 100%; margin-top: 5px; }
+        
         #card-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; }
         .tarot-card { width: 88vw; max-width: 350px; min-height: 80vh; background: #0a0a0c; border: 3px solid var(--card-gold); border-radius: 15px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; box-sizing: border-box; }
         .card-visual-box { width: 160px; height: 260px; border: 2px solid #333; margin-bottom: 12px; background: #111; overflow: hidden; }
+        
+        /* 擲茭視覺強化 */
         .divining-box { display: flex; gap: 20px; margin: 25px 0; }
-        .block { width: 65px; height: 100px; background: #a00; border-radius: 60px 15px 60px 15px; border: 3px solid #500; }
+        .block { width: 65px; height: 100px; background: #a00; border-radius: 60px 15px 60px 15px; border: 3px solid #500; box-shadow: inset 5px 0 10px rgba(0,0,0,0.5); }
         .block.flat { background: #600; border-radius: 10px; height: 25px; margin-top: 38px; }
-        .block.stand { transform: rotateX(45deg); height: 120px; background: #d00; border: 4px solid var(--phosphor-green); }
+        .block.stand { transform: rotateX(45deg); height: 120px; background: #d00; border: 4px solid var(--phosphor-green); animation: standGlow 1s infinite alternate; }
+        @keyframes standGlow { from { box-shadow: 0 0 5px var(--phosphor-green); } to { box-shadow: 0 0 20px var(--phosphor-green); } }
+
         .healing-box { width: 100%; padding: 10px; border: 1px dashed var(--card-gold); background: rgba(197, 160, 89, 0.1); margin-bottom: 15px; }
         .healing-label { font-size: 0.6rem; color: var(--card-gold); margin-bottom: 5px; font-weight: 900; letter-spacing: 2px; }
         .healing-content { color: #fff; font-size: 0.9rem; font-weight: bold; }
@@ -62,9 +67,9 @@
     <div class="screen-bezel">
         <div class="live-time" id="current-time">LIVE 00:00:00</div>
         <div class="crt-screen">
-            <textarea id="trash-input" placeholder="> 輸入垃圾心情，捕捉訊號..."></textarea>
+            <textarea id="trash-input" placeholder="> 捕捉 78 頻道地獄訊號..."></textarea>
             <div class="breaking-label">LIVE</div>
-            <div class="news-ticker"><div class="ticker-text">>>> 獨家：專家指出，您的努力除了感動自己，對社會毫無貢獻 >>> 快訊：導播指示，您的演技雖然專業，但加班費依然是零 >>> 報導：HR 表示，您的心碎並不屬於公傷假範圍 >>> 提醒：蘭姆葡萄夾心餅的甜度，剛好能蓋過您對人生的苦澀 >>> 警告：您的夢想已被系統回收，請勿再次查詢 >>> 突發：您的前任過得比您好，且這不是錯覺 >>> 廣告：癒室肉桂捲，救不了您的靈魂但救得了您的胃 >>> </div></div>
+            <div class="news-ticker"><div class="ticker-text" id="ticker-msg">>>> 78CH 職場現世報：專治各種升職幻想與開工焦慮 >>> 獨家：專家指出，您的努力除了感動自己，對社會毫無貢獻 >>> 報導：HR 表示，您的心碎並不屬於公傷假範圍 >>> 提醒：蘭姆葡萄夾心餅的甜度，剛好能蓋過您對人生的苦澀 >>> 廣告：癒室肉桂捲，救不了您的靈魂但救得了您的胃 >>> </div></div>
         </div>
     </div>
     <button class="power-btn" onclick="execute()">[ 焚毀執行 ]</button>
@@ -74,8 +79,8 @@
     <div style="font-size: 0.6rem; color: #555; margin-bottom: 10px; letter-spacing: 2px;">ABYSS NEWS CHANNEL</div>
     <div id="result-tarot"><div class="card-visual-box"><img id="c-img" style="width:100%; height:100%; object-fit:cover;" src=""></div></div>
     <div id="result-divine" style="display:none;"><div class="divining-box" id="blocks-visual"></div></div>
-    <div style="color:var(--fire); font-size:1.8rem; font-weight:900; margin-bottom:5px;" id="c-name"></div>
-    <div style="font-size:1.2rem; color:#fff; font-weight:bold; margin-bottom:12px;" id="c-desc"></div>
+    <div style="color:var(--fire); font-size:1.6rem; font-weight:900; margin-bottom:5px;" id="c-name"></div>
+    <div style="font-size:1.1rem; color:#fff; font-weight:bold; margin-bottom:12px;" id="c-desc"></div>
     <div class="healing-box"><div class="healing-label">【 癒室救贖建議 】</div><div class="healing-content" id="c-healing"></div></div>
     <div style="position:absolute; bottom:12px; right:15px; color:var(--card-gold); font-size:0.6rem; opacity:0.5;">© 癒室 HEALING ROOM</div>
     <div class="action-btns"><button class="share-btn" onclick="saveSnapshot()">📸 生成截圖</button><button class="close-btn" style="background:#333; color:#fff; border:none; padding:10px; border-radius:8px; font-weight:900;" onclick="closeOverlay()">重新開機</button></div>
@@ -88,92 +93,49 @@
     const desserts = ["蘭姆葡萄核桃焦糖肉桂捲","純核桃焦糖肉桂捲","黃金乳酪球","巴斯克蛋糕","限量迷你可麗露","瑪德蓮","蘭姆葡萄夾心餅"];
     const deck = [
         /* 大牌 m00-m21 */
-        { n: "0. 愚者", img: "m00.jpg", d: "冒險只是無知的代稱。你沒腦子，撞牆也不痛。" },
-        { n: "1. 魔術師", img: "m01.jpg", d: "才華沒變現就是垃圾。認命回去搬磚吧。" },
-        { n: "2. 女祭司", img: "m02.jpg", d: "沉默不是智慧是尷尬。沒人想聽你的內心戲。" },
-        { n: "3. 皇后", img: "m03.jpg", d: "儀式感救不了餘額。你是窮人的命公主的病。" },
-        { n: "4. 皇帝", img: "m04.jpg", d: "老闆是你爹，公司是你家。跪著把錢掙了。" },
-        { n: "5. 教皇", img: "m05.jpg", d: "規則是用來弄死你的。認命當社會的零件。" },
-        { n: "6. 戀人", img: "m06.jpg", d: "他沒回你是真的在忙...忙著跟別人約會。" },
-        { n: "7. 戰車", img: "m07.jpg", d: "衝向未來？不，是衝向勞改營。別想跳車。" },
-        { n: "8. 力量", img: "m08.jpg", d: "堅持不會成功只會過勞。放棄吧，牆比你硬。" },
-        { n: "9. 隱士", img: "m09.jpg", d: "邊緣人就邊緣人，別裝清高。安靜發霉吧。" },
-        { n: "10. 命運輪", img: "m10.jpg", d: "輪流轉是指別人的好事，你的霉頭。被壓死吧。" },
-        { n: "11. 正義", img: "m11.jpg", d: "沒錢就沒正義。上班是你的現世報。" },
-        { n: "12. 倒吊人", img: "m12.jpg", d: "無謂的犧牲只是自我感動。換個姿勢受苦。" },
-        { n: "13. 死神", img: "m13.jpg", d: "期待結束是奢侈。痛苦只會輪迴，躺平受死吧。" },
-        { n: "14. 節制", img: "m14.jpg", d: "追求平衡是因為沒膽。你的人生注定一碗清水。" },
-        { n: "15. 惡魔", img: "m15.jpg", d: "你是薪水的奴隸。回去戴上枷鎖，別想了。" },
-        { n: "16. 塔", img: "m16.jpg", d: "崩塌是因為地基太爛。就在廢墟裡坐好別亂動。" },
-        { n: "17. 星星", img: "m17.jpg", d: "夢想是拿來燒的。看著餘燼早點睡，別做夢。" },
-        { n: "18. 月亮", img: "m18.jpg", d: "焦慮是你的本色。他連你名字都沒記住。" },
-        { n: "19. 太陽", img: "m19.jpg", d: "陽光讓你更醜。黑暗才是歸宿，別裝正能量。" },
-        { n: "20. 審判", img: "m20.jpg", d: "判決結果：繼續勞改。這是你欠生活的債。" },
-        { n: "21. 世界", img: "m21.jpg", d: "繞了一圈還是在原地。你的終點就是垃圾桶。" },
-
+        { n: "0. 愚者", img: "m00.jpg", d: "冒險只是無知的代稱。你沒腦子，撞牆也不痛。" }, { n: "1. 魔術師", img: "m01.jpg", d: "才華沒變現就是垃圾。認命回去搬磚吧。" },
+        { n: "2. 女祭司", img: "m02.jpg", d: "沉默不是智慧是尷尬。沒人想聽你的內心戲。" }, { n: "3. 皇后", img: "m03.jpg", d: "儀式感救不了餘額。你是窮人的命公主的病。" },
+        { n: "4. 皇帝", img: "m04.jpg", d: "老闆是你爹，公司是你家。跪著把錢掙了。" }, { n: "5. 教皇", img: "m05.jpg", d: "規則是用來弄死你的。認命當社會的零件。" },
+        { n: "6. 戀人", img: "m06.jpg", d: "他沒回你是真的在忙...忙著跟別人約會。" }, { n: "7. 戰車", img: "m07.jpg", d: "衝向未來？不，是衝向勞改營。別想跳車。" },
+        { n: "8. 力量", img: "m08.jpg", d: "堅持不會成功只會過勞。放棄吧，牆比你硬。" }, { n: "9. 隱士", img: "m09.jpg", d: "邊緣人就邊緣人，別裝清高。安靜發霉吧。" },
+        { n: "10. 命運輪", img: "m10.jpg", d: "輪流轉是指別人的好事，你的霉頭。被壓死吧。" }, { n: "11. 正義", img: "m11.jpg", d: "沒錢就沒正義。上班是你的現世報。" },
+        { n: "12. 倒吊人", img: "m12.jpg", d: "無謂的犧牲只是自我感動。換個姿勢受苦。" }, { n: "13. 死神", img: "m13.jpg", d: "期待結束是奢侈。痛苦只會輪迴，躺平受死吧。" },
+        { n: "14. 節制", img: "m14.jpg", d: "追求平衡是因為沒膽。你的人生注定一碗清水。" }, { n: "15. 惡魔", img: "m15.jpg", d: "你是薪水的奴隸。回去戴上枷鎖，別想了。" },
+        { n: "16. 塔", img: "m16.jpg", d: "崩塌是因為地基太爛。就在廢墟裡坐好別亂動。" }, { n: "17. 星星", img: "m17.jpg", d: "夢想是拿來燒的。看著餘燼早點睡，別做夢。" },
+        { n: "18. 月亮", img: "m18.jpg", d: "焦慮是你的本色。他連你名字都沒記住。" }, { n: "19. 太陽", img: "m19.jpg", d: "陽光讓你更醜。黑暗才是歸宿，別裝正能量。" },
+        { n: "20. 審判", img: "m20.jpg", d: "判決結果：繼續勞改。這是你欠生活的債。" }, { n: "21. 世界", img: "m21.jpg", d: "繞了一圈還是在原地。你的終點就是垃圾桶。" },
         /* 寶劍組 s01-s14 */
-        { n: "寶劍一", img: "s01.jpg", d: "你的大腦開機失敗。新的計劃只會讓你死得更快。" },
-        { n: "寶劍二", img: "s02.jpg", d: "猶豫不決是因為你沒資本選。隨便選個坑跳吧。" },
-        { n: "寶劍三", img: "s03.jpg", d: "心碎？不，只是認清現實。你根本不值得被愛。" },
-        { n: "寶劍四", img: "s04.jpg", d: "休息是因為你廢了。躺著等死，別裝冥想。" },
-        { n: "寶劍五", img: "s05.jpg", d: "贏了面子輸了人生。大家都討厭你，恭喜。" },
-        { n: "寶劍六", img: "s06.jpg", d: "逃跑也沒用。問題在你的智商，不在環境。" },
-        { n: "寶劍七", img: "s07.jpg", d: "自以為聰明？你只是個偷時間的小偷，遲早被抓。" },
-        { n: "寶劍八", img: "s08.jpg", d: "眼罩是你自己戴的。因為現實太醜，你不敢看。" },
-        { n: "寶劍九", img: "s09.jpg", d: "失眠是因為你活該。醒著痛苦總比夢裡受騙好。" },
-        { n: "寶劍十", img: "s10.jpg", d: "你已萬箭穿心。搬著屍體去打卡認命吧。" },
-        { n: "寶劍侍者", img: "s11.jpg", d: "愛打聽的小人。閉上嘴，世界會更美好。" },
-        { n: "寶劍騎士", img: "s12.jpg", d: "衝動是魔鬼。你不是英雄，是炮灰。" },
-        { n: "寶劍皇后", img: "s13.jpg", d: "尖酸刻薄是你的盔甲。祝你孤老終生。" },
-        { n: "寶劍國王", img: "s14.jpg", d: "自以為公正的暴君。沒人真心服你。" },
-
+        { n: "寶劍一", img: "s01.jpg", d: "大腦開機失敗。新的計劃只會讓你死得更快。" }, { n: "寶劍二", img: "s02.jpg", d: "猶豫不決是因為你沒錢選。隨便選個坑跳吧。" },
+        { n: "寶劍三", img: "s03.jpg", d: "心碎？不，只是認清現實。你根本不值得被愛。" }, { n: "寶劍四", img: "s04.jpg", d: "休息是因為你廢了。躺著等死，別裝冥想。" },
+        { n: "寶劍五", img: "s05.jpg", d: "贏了面子輸了人生。大家都討厭你，恭喜。" }, { n: "寶劍六", img: "s06.jpg", d: "逃跑也沒用。問題在你的智商，不在環境。" },
+        { n: "寶劍七", img: "s07.jpg", d: "自以為聰明？你只是個偷時間的小偷。" }, { n: "寶劍八", img: "s08.jpg", d: "眼罩是你自己戴的。因為現實太醜，你不敢看。" },
+        { n: "寶劍九", img: "s09.jpg", d: "失眠是因為你活該。醒著痛苦總比夢裡受騙好。" }, { n: "寶劍十", img: "s10.jpg", d: "你已萬箭穿心。搬著屍體去打卡認命吧。" },
+        { n: "寶劍侍者", img: "s11.jpg", d: "愛打聽的小人。閉上嘴，世界會更美好。" }, { n: "寶劍騎士", img: "s12.jpg", d: "衝動是魔鬼。你不是英雄，是炮灰。" },
+        { n: "寶劍皇后", img: "s13.jpg", d: "尖酸刻薄是你的盔甲。祝你孤老終生。" }, { n: "寶劍國王", img: "s14.jpg", d: "自以為公正的暴君。沒人真心服你。" },
         /* 聖盃組 c01-c14 */
-        { n: "聖盃一", img: "c01.jpg", d: "情感滿溢？那是腦部積水。清醒一點。" },
-        { n: "聖盃二", img: "c02.jpg", d: "承諾是屁。明天他就會把你封鎖。" },
-        { n: "聖盃三", img: "c03.jpg", d: "聚會笑聲是嘲諷。你沒朋友，只有臨時演員。" },
-        { n: "聖盃四", img: "c04.jpg", d: "厭倦是因為你太閒。滾回去上班就不會憂鬱了。" },
-        { n: "聖盃五", img: "c05.jpg", d: "哭也沒錢拿。剩下的半杯也是酸的，倒了吧。" },
-        { n: "聖盃六", img: "c06.jpg", d: "回憶過去是因為現在太爛。你這輩子也就這樣了。" },
-        { n: "聖盃七", img: "c07.jpg", d: "全是幻覺。你挑哪個坑，最後都是一場空。" },
-        { n: "聖盃八", img: "c08.jpg", d: "離開也沒用。問題在你的智商，不在環境。" },
-        { n: "聖盃九", img: "c09.jpg", d: "自鳴得意？你只是隻關在籠子裡的胖豬。" },
-        { n: "聖盃十", img: "c10.jpg", d: "幸福是演給別人看的。家裡早就雞飛狗跳了。" },
-        { n: "聖盃侍者", img: "c11.jpg", d: "多愁善感的小廢物。別人的同情只是你的毒藥。" },
-        { n: "聖盃騎士", img: "c12.jpg", d: "白馬王子是詐騙集團。你只是他名單上的一員。" },
-        { n: "聖盃皇后", img: "c13.jpg", d: "溺死在情緒裡的瘋女人。你的愛是種窒息。" },
-        { n: "聖盃國王", img: "c14.jpg", d: "情緒勒索大師。你的溫柔全是控制。" },
-
+        { n: "聖盃一", img: "c01.jpg", d: "情感滿溢？那是腦部積水。清醒一點。" }, { n: "聖盃二", img: "c02.jpg", d: "承諾是屁。明天他就會把你封鎖。" },
+        { n: "聖盃三", img: "c03.jpg", d: "聚會笑聲是嘲諷。你沒朋友，只有臨時演員。" }, { n: "聖盃四", img: "c04.jpg", d: "厭倦是因為你太閒。滾回去上班就不會憂鬱了。" },
+        { n: "聖盃五", img: "c05.jpg", d: "哭也沒錢拿。剩下的半杯也是酸的，倒了吧。" }, { n: "聖盃六", img: "c06.jpg", d: "回憶過去是因為現在太爛。你也就這樣了。" },
+        { n: "聖盃七", img: "c07.jpg", d: "全是幻覺。你挑哪個坑，最後都是一場空。" }, { n: "聖盃八", img: "c08.jpg", d: "離開也沒用。問題在你的智商，不在環境。" },
+        { n: "聖盃九", img: "c09.jpg", d: "自鳴得意？你只是隻關在籠子裡的胖豬。" }, { n: "聖盃十", img: "c10.jpg", d: "幸福是演給別人看的。家裡早就雞飛狗跳了。" },
+        { n: "聖盃侍者", img: "c11.jpg", d: "多愁善感的小廢物。同情只是你的毒藥。" }, { n: "聖盃騎士", img: "c12.jpg", d: "白馬王子是詐騙集團。你只是他名單上的一員。" },
+        { n: "聖盃皇后", img: "c13.jpg", d: "溺死在情緒裡的瘋女人。你的愛是種窒息。" }, { n: "聖盃國王", img: "c14.jpg", d: "情緒勒索大師。你的溫柔全是控制。" },
         /* 金幣組 p01-p14 */
-        { n: "金幣一", img: "p01.jpg", d: "一塊錢救不了命。這點資本只夠買張彩券。" },
-        { n: "金幣二", img: "p02.jpg", d: "忙著瞎忙？你只是在表演努力。認命當窮忙族。" },
-        { n: "金幣三", img: "p03.jpg", d: "團隊合作？那是分贓不均。你只是最廉價的。" },
-        { n: "金幣四", img: "p04.jpg", d: "守著那點破錢發霉。沒人會偷你那點窮酸樣。" },
-        { n: "金幣五", img: "p05.jpg", d: "窮不是病，但讓你像喪屍。別看餘額了。" },
-        { n: "金幣六", img: "p06.jpg", d: "施捨是種施壓。拿了這錢，你就是他的狗。" },
-        { n: "金幣七", img: "p07.jpg", d: "耕耘了也沒收穫。你種的是雜草，別等了。" },
-        { n: "金幣八", img: "p08.jpg", d: "重複勞動的機器。你的價值就是隨時被取代。" },
-        { n: "金幣九", img: "p09.jpg", d: "有錢沒愛。你的豪華套房是你的孤島。" },
-        { n: "金幣十", img: "p10.jpg", d: "家族負擔。你的繼承只是繼承一堆垃圾。" },
-        { n: "金幣侍者", img: "p11.jpg", d: "學習是因為你笨。證照只是垃圾桶裡的裝飾。" },
-        { n: "金幣騎士", img: "p12.jpg", d: "慢吞吞的笨蛋。機會早就被別人搶光了。" },
-        { n: "金幣皇后", img: "p13.jpg", d: "守財奴。你的溫暖是用錢堆出來的假象。" },
-        { n: "金幣國王", img: "p14.jpg", d: "滿腦子數字的怪物。你的靈魂值幾塊錢？" },
-
+        { n: "金幣一", img: "p01.jpg", d: "一塊錢救不了命。這點資本只夠買張彩券。" }, { n: "金幣二", img: "p02.jpg", d: "忙著瞎忙？你只是在表演努力。認命吧。" },
+        { n: "金幣三", img: "p03.jpg", d: "團隊合作？那是分贓不均。你只是最廉價的。" }, { n: "金幣四", img: "p04.jpg", d: "守著那點破錢發霉。沒人會偷你那點窮酸樣。" },
+        { n: "金幣五", img: "p05.jpg", d: "窮不是病，但讓你像喪屍。別看餘額了。" }, { n: "金幣六", img: "p06.jpg", d: "施捨是種施壓。拿了這錢，你就是他的狗。" },
+        { n: "金幣七", img: "p07.jpg", d: "耕耘了也沒收穫。你種的是雜草，別等了。" }, { n: "金幣八", img: "p08.jpg", d: "重複勞動的機器。你的價值就是隨時被取代。" },
+        { n: "金幣九", img: "p09.jpg", d: "有錢沒愛。你的豪華套房是你的孤島。" }, { n: "金幣十", img: "p10.jpg", d: "家族負擔。你的繼承只是繼承一堆垃圾。" },
+        { n: "金幣侍者", img: "p11.jpg", d: "學習是因為你笨。證照只是垃圾桶裡的裝飾。" }, { n: "金幣騎士", img: "p12.jpg", d: "慢吞吞的笨蛋。機會早就被別人搶光了。" },
+        { n: "金幣皇后", img: "p13.jpg", d: "守財奴。你的溫暖是用錢堆出來的假象。" }, { n: "金幣國王", img: "p14.jpg", d: "滿腦子數字的怪物。你的靈魂值幾塊錢？" },
         /* 權杖組 w01-w14 */
-        { n: "權杖一", img: "w01.jpg", d: "開工啦！這是你爆肝的開始，別想逃。" },
-        { n: "權杖二", img: "w02.jpg", d: "野心很大，膽子很小。看著窗外發呆比較快。" },
-        { n: "權杖三", img: "w03.jpg", d: "等不到的船，看不見的未來。慢慢等死吧。" },
-        { n: "權杖四", img: "w04.jpg", d: "短暫的慶祝是為了更慘的加班。回去工作。" },
-        { n: "權杖五", img: "w05.jpg", d: "鬥爭沒意義。反正最後你們都是輸家。" },
-        { n: "權杖六", img: "w06.jpg", d: "勝利只是假象。大家都等著看你跌下來。" },
-        { n: "權杖七", img: "w07.jpg", d: "一個對抗全世界？那是電影，現實是你會被打死。" },
-        { n: "權杖八", img: "w08.jpg", d: "消息很快，但全是壞消息。準備接球吧。" },
-        { n: "權杖九", img: "w09.jpg", d: "防衛也沒用。世界想弄死你，你擋不住的。" },
-        { n: "權杖十", img: "w10.jpg", d: "累死也沒人感激。你只是台快報廢的機器。" },
-        { n: "權杖侍者", img: "w11.jpg", d: "三分鐘熱度。你的熱情比屁還快消失。" },
-        { n: "權杖騎士", img: "w12.jpg", d: "盲目衝刺的傻瓜。你的終點就是牆壁。" },
-        { n: "權杖皇后", img: "w13.jpg", d: "掌控欲超強的瘋婆子。大家都在背後罵你。" },
-        { n: "權杖國王", img: "w14.jpg", d: "自以為領袖。其實你只是帶隊衝進火坑。" }
+        { n: "權杖一", img: "w01.jpg", d: "開工啦！這是你爆肝的開始，別想逃。" }, { n: "權杖二", img: "w02.jpg", d: "野心很大，膽子很小。看著窗外發呆比較快。" },
+        { n: "權杖三", img: "w03.jpg", d: "等不到的船，看不見的未來。慢慢等死吧。" }, { n: "權杖四", img: "w04.jpg", d: "短暫的慶祝是為了更慘的加班。回去工作。" },
+        { n: "權杖五", img: "w05.jpg", d: "鬥爭沒意義。反正最後你們都是輸家。" }, { n: "權杖六", img: "w06.jpg", d: "勝利只是假象。大家都等著看你跌下來。" },
+        { n: "權杖七", img: "w07.jpg", d: "一個對抗全世界？那是電影，現實是你會被打死。" }, { n: "權杖八", img: "w08.jpg", d: "消息很快，但全是壞消息。準備接球吧。" },
+        { n: "權杖九", img: "w09.jpg", d: "防衛也沒用。世界想弄死你，你擋不住的。" }, { n: "權杖十", img: "w10.jpg", d: "累死也沒人感激。你只是台快報廢的機器。" },
+        { n: "權杖侍者", img: "w11.jpg", d: "三分鐘熱度。你的熱情比屁還快消失。" }, { n: "權杖騎士", img: "w12.jpg", d: "盲目衝刺的傻瓜。你的終點就是牆壁。" },
+        { n: "權杖皇后", img: "w13.jpg", d: "掌控欲超強的瘋婆子。大家都在背後罵你。" }, { n: "權杖國王", img: "w14.jpg", d: "自以為領袖。其實你只是帶隊衝進火坑。" }
     ];
 
     function updateTime() { document.getElementById('current-time').innerText = `LIVE ${new Date().toLocaleTimeString('zh-TW', {hour12: false})}`; }
@@ -189,10 +151,10 @@
         } else {
             document.getElementById('result-tarot').style.display = 'none'; document.getElementById('result-divine').style.display = 'block';
             const rand = Math.random(); let res;
-            if (rand < 0.001) res = { n: "系統崩潰", d: "【 警告 】現實被你的無知擊碎了。禁止再次請示，立刻回工位坐好。", b: ["stand", "stand"] };
-            else if (rand < 0.5) res = { n: "現實特許", d: "現實特許。准你今天稍微偷懶。趁老闆沒發現，快滾。", b: ["curved", "flat"] };
-            else if (rand < 0.75) res = { n: "現實嘲笑", d: "現實正在嘲笑你的天真。這種問題連 HR 都懶得回答。重擲。", b: ["flat", "flat"] };
-            else res = { n: "現實打臉", d: "現實打臉。判決結果：門都沒有。清醒一點，回去加班吧。", b: ["curved", "curved"] };
+            if (rand < 0.001) res = { n: "立茭 | 系統崩潰", d: "【 警告 】現實被你的無知擊碎了。禁止再次請示，立刻回工位坐好。", b: ["stand", "stand"] };
+            else if (rand < 0.5) res = { n: "聖茭 | 現實特許", d: "現實特許。准你今天稍微偷懶。趁老闆沒發現，快滾。", b: ["curved", "flat"] };
+            else if (rand < 0.75) res = { n: "笑茭 | 現實嘲笑", d: "現實正在嘲笑你的天真。這種問題連 HR 都懶得回答。重擲。", b: ["flat", "flat"] };
+            else res = { n: "陰茭 | 現實打臉", d: "現實打臉。判決結果：門都沒有。清醒一點，回去加班吧。", b: ["curved", "curved"] };
             document.getElementById('c-name').innerText = res.n; document.getElementById('c-desc').innerText = res.d;
             document.getElementById('blocks-visual').innerHTML = res.b.map(t => `<div class="block ${t}"></div>`).join('');
         }
